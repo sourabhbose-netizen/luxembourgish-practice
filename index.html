@@ -243,13 +243,14 @@
             <ol>
                 <li><strong>🔊 Listen</strong> — hear the question spoken aloud</li>
                 <li><strong>🎤 Answer</strong> — click, speak your answer, then click <strong>⏹️ Stop & Check</strong></li>
+                <li><strong>🇱🇺 LuxASR mode</strong> — uses real Luxembourgish speech recognition (University of Luxembourg)</li>
+                <li><strong>🌐 Browser mode</strong> — fallback using German recognition (less accurate for Lëtzebuergesch)</li>
                 <li><strong>⌨️ Or type</strong> — type your answer in the text box below (more reliable!)</li>
                 <li><strong>💡 Hint</strong> — get a clue if you're stuck</li>
                 <li><strong>➡️ Next</strong> — move to the next question</li>
             </ol>
             <div class="note">
-                💡 Note: Speech recognition uses German as a proxy since Luxembourgish isn't natively supported.
-                Typing your answer is the most reliable way to check your spelling and grammar.
+                💡 LuxASR mode sends your audio to the University of Luxembourg's server for real Luxembourgish recognition. Browser mode uses German as a proxy. Typing is always available as the most reliable option.
             </div>
         </div>
 
@@ -264,10 +265,11 @@
         <div class="category-bar" id="categoryBar"></div>
 
         <div class="settings-row">
-            <label>
-                🔊 Speed:
-                <input type="range" id="speechRate" min="0.5" max="1.2" step="0.1" value="0.8">
-            </label>
+            <label>🔊 Speed: <input type="range" id="speechRate" min="0.5" max="1.2" step="0.1" value="0.8"></label>
+            <span style="color:#555">|</span>
+            <label>🎤 Recognition:</label>
+            <button class="category-btn active" id="modeLuxasr" onclick="setRecognitionMode('luxasr')" style="font-size:0.75rem;padding:5px 12px">🇱🇺 LuxASR</button>
+            <button class="category-btn" id="modeBrowser" onclick="setRecognitionMode('browser')" style="font-size:0.75rem;padding:5px 12px">🌐 Browser</button>
         </div>
 
         <div class="card">

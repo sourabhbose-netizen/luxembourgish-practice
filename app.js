@@ -5,14 +5,16 @@ let total = 0;
 let streak = 0;
 let activeCategory = "All";
 let isRecording = false;
-let recognition = null;
-let hasRecognitionSupport = false;
-let allAlternatives = [];
+let mediaRecorder = null;
+let audioChunks = [];
+let recognitionMode = "luxasr"; // "luxasr" or "browser"
+let browserRecognition = null;
+let browserAlternatives = [];
 
 // ===== INIT =====
 document.addEventListener("DOMContentLoaded", () => {
     initCategories();
-    checkSpeechSupport();
+    initRecognition();
     nextQuestion();
 });
 
@@ -41,32 +43,61 @@ function selectCategory(cat, btn) {
     nextQuestion();
 }
 
-function checkSpeechSupport() {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (SpeechRecognition) {
-        hasRecognitionSupport = true;
-        setupRecognition(SpeechRecognition);
-        document.getElementById("micStatus").textContent = "🎤 Microphone ready (using German recognition as proxy)";
-        document.getElementById("micStatus").className = "mic-status ready";
-    } else {
-        document.getElementById("browserWarning").classList.add("visible");
-        document.getElementById("micStatus").textContent = "⚠️ Speech recognition not available — type your answers below";
-        document.getElementById("micStatus").className = "mic-status warning";
+// ===== RECOGNITION SETUP =====
+async function initRecognition() {
+    // Check microphone access
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        stream.getTracks().forEach(t => t.stop()); // Release immediately
+
+        // Default to LuxASR
+        recognitionMode = "luxasr";
+        updateModeUI();
+        setStatus("🎤 Microphone ready — using LuxASR (Luxembourgish recognition)", "ready");
+    } catch (e) {
+        setStatus("⚠️ Microphone not available — type your answers below", "warning");
     }
-    // Always show manual input as a reliable fallback
+
+    // Also set up browser recognition as fallback
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SR) {
+        browserRecognition = new SR();
+        browserRecognition.continuous = true;
+        browserRecognition.interimResults = true;
+        browserRecognition.maxAlternatives = 10;
+        browserRecognition.lang = "de-DE";
+        browserRecognition.onresult = handleBrowserResult;
+        browserRecognition.onerror = (e) => { if (e.error !== "aborted") console.log("Browser SR error:", e.error); };
+        browserRecognition.onend = () => { if (isRecording && recognitionMode === "browser") try { browserRecognition.start(); } catch(e) {} };
+    }
+
+    // Always show manual input
     document.getElementById("manualInputArea").classList.add("visible");
 }
 
-function setupRecognition(SpeechRecognition) {
-    recognition = new SpeechRecognition();
-    recognition.continuous = true;
-    recognition.interimResults = true;
-    recognition.maxAlternatives = 10; // Get as many alternatives as possible
-    recognition.lang = "de-DE"; // German is closest to Luxembourgish
+function updateModeUI() {
+    const luxBtn = document.getElementById("modeLuxasr");
+    const brBtn = document.getElementById("modeBrowser");
+    if (luxBtn && brBtn) {
+        luxBtn.classList.toggle("active", recognitionMode === "luxasr");
+        brBtn.classList.toggle("active", recognitionMode === "browser");
+    }
+}
 
-    recognition.onresult = handleRecognitionResult;
-    recognition.onerror = handleRecognitionError;
-    recognition.onend = handleRecognitionEnd;
+function setRecognitionMode(mode) {
+    recognitionMode = mode;
+    updateModeUI();
+    if (mode === "luxasr") {
+        setStatus("🎤 Using LuxASR — real Luxembourgish speech recognition", "ready");
+    } else {
+        setStatus("🎤 Using browser recognition (German proxy)", "ready");
+    }
+}
+
+function setStatus(text, cls) {
+    const el = document.getElementById("micStatus");
+    el.textContent = text;
+    el.className = "mic-status " + cls;
 }
 
 // ===== QUESTIONS =====
@@ -85,7 +116,7 @@ function nextQuestion() {
     } while (pool.length > 1 && q === currentQuestion);
 
     currentQuestion = q;
-    allAlternatives = [];
+    browserAlternatives = [];
 
     document.getElementById("questionText").textContent = q.question;
     document.getElementById("questionTranslation").textContent = q.translation;
@@ -117,10 +148,7 @@ function speakQuestion() {
     const btn = document.getElementById("btnListen");
     btn.textContent = "🔊 Playing...";
     btn.disabled = true;
-    utterance.onend = () => {
-        btn.textContent = "🔊 Listen";
-        btn.disabled = false;
-    };
+    utterance.onend = () => { btn.textContent = "🔊 Listen"; btn.disabled = false; };
 
     speechSynthesis.cancel();
     speechSynthesis.speak(utterance);
@@ -128,30 +156,20 @@ function speakQuestion() {
 
 speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
 
-// ===== SPEECH RECOGNITION =====
-function toggleRecording() {
-    if (!hasRecognitionSupport) {
-        document.getElementById("manualInput").focus();
-        return;
-    }
-
+// ===== RECORDING (shared for both modes) =====
+async function toggleRecording() {
     if (isRecording) {
         stopRecording();
-        // Validate with whatever we have
-        const text = document.getElementById("yourAnswer").textContent;
-        if (text && text !== "—" && text !== "Listening..." && text !== "🎤 Speak now...") {
-            validateAnswer(text, allAlternatives);
-        }
     } else {
         startRecording();
     }
 }
 
-function startRecording() {
-    if (!recognition) return;
-
-    allAlternatives = [];
+async function startRecording() {
     isRecording = true;
+    audioChunks = [];
+    browserAlternatives = [];
+
     document.getElementById("btnRecord").classList.add("recording");
     document.getElementById("btnRecord").innerHTML = "⏹️ Stop & Check";
     document.getElementById("yourAnswer").textContent = "🎤 Speak now...";
@@ -159,92 +177,171 @@ function startRecording() {
     document.getElementById("feedback").classList.remove("visible");
     document.getElementById("rawRecognition").textContent = "";
     document.getElementById("rawRecognition").style.display = "none";
-    document.getElementById("micStatus").textContent = "🔴 Recording... speak your answer";
-    document.getElementById("micStatus").className = "mic-status recording";
+    setStatus("🔴 Recording... speak your answer in Lëtzebuergesch", "recording");
 
-    try {
-        recognition.start();
-    } catch (e) {
-        console.log("Recognition restart:", e.message);
+    if (recognitionMode === "luxasr") {
+        // Record audio via MediaRecorder for LuxASR
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            // Use wav-compatible format; browsers typically support webm/ogg
+            const mimeType = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
+                ? "audio/webm;codecs=opus"
+                : MediaRecorder.isTypeSupported("audio/ogg;codecs=opus")
+                    ? "audio/ogg;codecs=opus"
+                    : "audio/webm";
+
+            mediaRecorder = new MediaRecorder(stream, { mimeType });
+            mediaRecorder.ondataavailable = (e) => {
+                if (e.data.size > 0) audioChunks.push(e.data);
+            };
+            mediaRecorder.start();
+        } catch (e) {
+            setStatus("⚠️ Could not access microphone: " + e.message, "warning");
+            isRecording = false;
+            resetRecordButton();
+            return;
+        }
+    } else {
+        // Browser recognition
+        if (browserRecognition) {
+            try { browserRecognition.start(); } catch(e) {}
+        }
     }
 }
 
 function stopRecording() {
     isRecording = false;
+    resetRecordButton();
+    document.getElementById("yourAnswer").classList.remove("listening");
+
+    if (recognitionMode === "luxasr") {
+        if (mediaRecorder && mediaRecorder.state !== "inactive") {
+            mediaRecorder.onstop = async () => {
+                // Stop all tracks
+                mediaRecorder.stream.getTracks().forEach(t => t.stop());
+
+                if (audioChunks.length === 0) {
+                    setStatus("⚠️ No audio recorded — try again", "warning");
+                    return;
+                }
+
+                const audioBlob = new Blob(audioChunks, { type: mediaRecorder.mimeType });
+                setStatus("⏳ Sending to LuxASR for Luxembourgish recognition...", "warning");
+                document.getElementById("yourAnswer").textContent = "⏳ Recognizing...";
+
+                await sendToLuxASR(audioBlob);
+            };
+            mediaRecorder.stop();
+        }
+    } else {
+        // Browser recognition
+        if (browserRecognition) {
+            try { browserRecognition.stop(); } catch(e) {}
+        }
+        setStatus("🎤 Microphone ready", "ready");
+        const text = document.getElementById("yourAnswer").textContent;
+        if (text && text !== "—" && !text.startsWith("🎤")) {
+            validateAnswer(text, browserAlternatives);
+        }
+    }
+}
+
+function resetRecordButton() {
     document.getElementById("btnRecord").classList.remove("recording");
     document.getElementById("btnRecord").innerHTML = "🎤 Answer";
-    document.getElementById("yourAnswer").classList.remove("listening");
-    document.getElementById("micStatus").textContent = "🎤 Microphone ready";
-    document.getElementById("micStatus").className = "mic-status ready";
+}
+
+// ===== LUXASR API =====
+async function sendToLuxASR(audioBlob) {
+    const formData = new FormData();
+    // LuxASR accepts wav, mp3, m4a — we send webm and hope it handles it,
+    // or we convert. Let's try directly first.
+    const ext = audioBlob.type.includes("webm") ? "webm" : "ogg";
+    formData.append("audio_file", audioBlob, `recording.${ext}`);
 
     try {
-        recognition.stop();
-    } catch (e) {
-        console.log("Recognition stop:", e.message);
-    }
-}
-
-function handleRecognitionResult(event) {
-    let interimTranscript = "";
-    let finalTranscript = "";
-
-    for (let i = event.resultIndex; i < event.results.length; i++) {
-        const result = event.results[i];
-        const transcript = result[0].transcript;
-
-        if (result.isFinal) {
-            finalTranscript += transcript;
-            // Collect ALL alternatives from this final result
-            for (let j = 0; j < result.length; j++) {
-                allAlternatives.push(result[j].transcript.trim());
+        const response = await fetch(
+            "https://luxasr.uni.lu/v2/asr?diarization=Disabled&outfmt=json&language=lb",
+            {
+                method: "POST",
+                body: formData,
             }
+        );
+
+        if (!response.ok) {
+            throw new Error(`LuxASR returned ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        let transcript = "";
+
+        // Parse LuxASR JSON response
+        if (typeof data === "string") {
+            transcript = data;
+        } else if (data.text) {
+            transcript = data.text;
+        } else if (data.segments) {
+            transcript = data.segments.map(s => s.text).join(" ");
+        } else if (Array.isArray(data)) {
+            transcript = data.map(s => s.text || s).join(" ");
         } else {
-            interimTranscript += transcript;
+            // Try to extract text from whatever structure
+            transcript = JSON.stringify(data);
         }
-    }
 
-    const display = finalTranscript || interimTranscript;
-    if (display) {
-        document.getElementById("yourAnswer").textContent = display;
-    }
+        transcript = transcript.trim();
 
-    // Show raw recognition data for debugging
-    if (allAlternatives.length > 0) {
-        const rawEl = document.getElementById("rawRecognition");
-        rawEl.style.display = "block";
-        const unique = [...new Set(allAlternatives)];
-        rawEl.textContent = "Heard: " + unique.slice(0, 5).join(" | ");
+        if (transcript) {
+            document.getElementById("yourAnswer").textContent = transcript;
+            const rawEl = document.getElementById("rawRecognition");
+            rawEl.style.display = "block";
+            rawEl.textContent = "LuxASR recognized: " + transcript;
+            setStatus("✅ LuxASR recognition complete", "ready");
+            validateAnswer(transcript, [transcript]);
+        } else {
+            document.getElementById("yourAnswer").textContent = "No speech detected";
+            setStatus("⚠️ LuxASR didn't detect speech — try speaking louder", "warning");
+        }
+    } catch (e) {
+        console.error("LuxASR error:", e);
+
+        if (e.message.includes("Failed to fetch") || e.message.includes("NetworkError") || e.message.includes("CORS")) {
+            // CORS issue — fall back to browser recognition
+            setStatus("⚠️ LuxASR blocked by CORS — switching to browser mode. Retrying...", "warning");
+            document.getElementById("yourAnswer").textContent = "LuxASR unavailable from browser — use typing or browser mic";
+
+            // Show CORS explanation
+            const rawEl = document.getElementById("rawRecognition");
+            rawEl.style.display = "block";
+            rawEl.textContent = "Note: LuxASR doesn't allow direct browser calls (CORS). Using browser recognition as fallback.";
+
+            // Auto-switch to browser mode
+            setRecognitionMode("browser");
+        } else {
+            setStatus("⚠️ LuxASR error: " + e.message, "warning");
+            document.getElementById("yourAnswer").textContent = "Recognition failed — try typing instead";
+        }
     }
 }
 
-function handleRecognitionError(event) {
-    console.log("Recognition error:", event.error);
-    const statusEl = document.getElementById("micStatus");
-
-    if (event.error === "no-speech") {
-        statusEl.textContent = "⚠️ No speech detected — try speaking louder or closer to the mic";
-        statusEl.className = "mic-status warning";
-    } else if (event.error === "not-allowed") {
-        statusEl.textContent = "❌ Microphone blocked — click the 🔒 icon in your address bar to allow mic access";
-        statusEl.className = "mic-status error";
-        document.getElementById("yourAnswer").textContent = "Mic access denied — type your answer below";
-    } else if (event.error === "aborted") {
-        // Normal when we call stop()
-        return;
-    } else {
-        statusEl.textContent = `⚠️ Error: ${event.error} — try again or type your answer`;
-        statusEl.className = "mic-status warning";
-    }
-}
-
-function handleRecognitionEnd() {
-    if (isRecording) {
-        // Auto-restart to keep listening
-        try {
-            recognition.start();
-        } catch (e) {
-            stopRecording();
+// ===== BROWSER RECOGNITION HANDLER =====
+function handleBrowserResult(event) {
+    let interim = "", final = "";
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+        const r = event.results[i];
+        if (r.isFinal) {
+            final += r[0].transcript;
+            for (let j = 0; j < r.length; j++) browserAlternatives.push(r[j].transcript.trim());
+        } else {
+            interim += r[0].transcript;
         }
+    }
+    const display = final || interim;
+    if (display) document.getElementById("yourAnswer").textContent = display;
+    if (browserAlternatives.length) {
+        const el = document.getElementById("rawRecognition");
+        el.style.display = "block";
+        el.textContent = "Browser heard: " + [...new Set(browserAlternatives)].slice(0, 5).join(" | ");
     }
 }
 
@@ -261,12 +358,9 @@ function validateAnswer(spoken, alternatives) {
     if (!currentQuestion) return;
 
     const accepted = currentQuestion.answers;
-    const spokenClean = normalize(spoken);
-
     let bestMatch = 0;
     let bestAnswer = "";
 
-    // Check all alternatives from speech recognition
     const allToCheck = [spoken, ...alternatives];
 
     for (const alt of allToCheck) {
@@ -274,49 +368,25 @@ function validateAnswer(spoken, alternatives) {
         for (const ans of accepted) {
             const ansClean = normalize(ans);
 
-            // Exact match
-            if (altClean === ansClean) {
-                bestMatch = 1;
-                bestAnswer = ans;
-                break;
-            }
+            if (altClean === ansClean) { bestMatch = 1; bestAnswer = ans; break; }
 
-            // Full string similarity
             const sim = similarity(altClean, ansClean);
-            if (sim > bestMatch) {
-                bestMatch = sim;
-                bestAnswer = ans;
-            }
+            if (sim > bestMatch) { bestMatch = sim; bestAnswer = ans; }
 
-            // Check if spoken contains the answer or vice versa
             if (altClean.includes(ansClean)) {
-                const containSim = Math.max(sim, 0.85);
-                if (containSim > bestMatch) {
-                    bestMatch = containSim;
-                    bestAnswer = ans;
-                }
+                const s = Math.max(sim, 0.85);
+                if (s > bestMatch) { bestMatch = s; bestAnswer = ans; }
             }
             if (ansClean.includes(altClean) && altClean.length > 2) {
-                const containSim = Math.max(sim, 0.7);
-                if (containSim > bestMatch) {
-                    bestMatch = containSim;
-                    bestAnswer = ans;
-                }
+                const s = Math.max(sim, 0.7);
+                if (s > bestMatch) { bestMatch = s; bestAnswer = ans; }
             }
 
-            // Word-level matching (more forgiving for speech recognition)
-            const wordSim = wordOverlap(altClean, ansClean);
-            if (wordSim > bestMatch) {
-                bestMatch = wordSim;
-                bestAnswer = ans;
-            }
+            const ws = wordOverlap(altClean, ansClean);
+            if (ws > bestMatch) { bestMatch = ws; bestAnswer = ans; }
 
-            // Phonetic similarity (handles common speech recognition substitutions)
-            const phoneticSim = phoneticSimilarity(altClean, ansClean);
-            if (phoneticSim > bestMatch) {
-                bestMatch = phoneticSim;
-                bestAnswer = ans;
-            }
+            const ps = phoneticSimilarity(altClean, ansClean);
+            if (ps > bestMatch) { bestMatch = ps; bestAnswer = ans; }
         }
         if (bestMatch >= 1) break;
     }
@@ -331,28 +401,25 @@ function validateAnswer(spoken, alternatives) {
     feedbackEl.classList.add("visible");
 
     if (bestMatch >= 0.6) {
-        score++;
-        streak++;
+        score++; streak++;
         feedbackEl.classList.add("correct");
         iconEl.textContent = "✅";
-        if (bestMatch >= 0.85) {
-            textEl.textContent = "Perfekt! Ganz gutt gemaach! 🎉";
-        } else {
-            textEl.textContent = "Gutt! Close enough — well done! 👍 (Speech recognition isn't perfect for Luxembourgish)";
-        }
-        expectedEl.innerHTML = `<strong>Your answer matched:</strong> ${bestAnswer}<br><small style="color:#888">Match confidence: ${Math.round(bestMatch * 100)}%</small>`;
+        textEl.textContent = bestMatch >= 0.85
+            ? "Perfekt! Ganz gutt gemaach! 🎉"
+            : "Gutt! Close enough — well done! 👍";
+        expectedEl.innerHTML = `<strong>Matched:</strong> ${bestAnswer}<br><small style="color:#888">Confidence: ${Math.round(bestMatch * 100)}%</small>`;
     } else if (bestMatch >= 0.35) {
         streak = 0;
         feedbackEl.classList.add("partial");
         iconEl.textContent = "🟡";
-        textEl.textContent = "Almost there! The recognition might have misheard you. Check the expected answers — if you said something similar, you're doing great!";
-        expectedEl.innerHTML = `<strong>Accepted answers:</strong><br>${accepted.slice(0, 5).join("<br>")}<br><br><small style="color:#888">💡 Tip: If the mic isn't catching your words, try typing your answer instead.</small>`;
+        textEl.textContent = "Almost! Check the expected answers below.";
+        expectedEl.innerHTML = `<strong>Accepted answers:</strong><br>${accepted.slice(0, 5).join("<br>")}`;
     } else {
         streak = 0;
         feedbackEl.classList.add("incorrect");
         iconEl.textContent = "❌";
-        textEl.textContent = "Not quite — but speech recognition for Luxembourgish is tricky! Review the answers below.";
-        expectedEl.innerHTML = `<strong>Accepted answers:</strong><br>${accepted.slice(0, 5).join("<br>")}<br><br><small style="color:#888">💡 The mic uses German recognition as a proxy, so it may mishear Luxembourgish words. Typing is more reliable for checking your spelling.</small>`;
+        textEl.textContent = "Not quite — review the answers below.";
+        expectedEl.innerHTML = `<strong>Accepted answers:</strong><br>${accepted.slice(0, 5).join("<br>")}`;
     }
 
     speakCorrectAnswer(bestAnswer || accepted[0]);
@@ -360,168 +427,91 @@ function validateAnswer(spoken, alternatives) {
 }
 
 function speakCorrectAnswer(answer) {
-    const utterance = new SpeechSynthesisUtterance(answer);
-    utterance.rate = 0.75;
+    const u = new SpeechSynthesisUtterance(answer);
+    u.rate = 0.75;
     const voices = speechSynthesis.getVoices();
-    const germanVoice = voices.find(v => v.lang.startsWith("de")) || voices[0];
-    if (germanVoice) utterance.voice = germanVoice;
-    utterance.lang = "de-DE";
-    setTimeout(() => {
-        speechSynthesis.cancel();
-        speechSynthesis.speak(utterance);
-    }, 600);
+    const v = voices.find(v => v.lang.startsWith("de")) || voices[0];
+    if (v) u.voice = v;
+    u.lang = "de-DE";
+    setTimeout(() => { speechSynthesis.cancel(); speechSynthesis.speak(u); }, 600);
 }
 
 // ===== SIMILARITY FUNCTIONS =====
 function normalize(text) {
-    return text
-        .toLowerCase()
+    return text.toLowerCase()
         .replace(/[.,!?;:'"()\-–—]/g, "")
         .replace(/\s+/g, " ")
-        .replace(/ë/g, "e")
-        .replace(/é/g, "e")
-        .replace(/ä/g, "a")
-        .replace(/ü/g, "u")
-        .replace(/ö/g, "o")
-        .replace(/ß/g, "ss")
+        .replace(/ë/g, "e").replace(/é/g, "e").replace(/ä/g, "a")
+        .replace(/ü/g, "u").replace(/ö/g, "o").replace(/ß/g, "ss")
         .trim();
 }
 
-// Phonetic normalization for common speech recognition confusions
 function phoneticNormalize(text) {
     return text
-        .replace(/sch/g, "sh")
-        .replace(/ch/g, "k")
-        .replace(/ck/g, "k")
-        .replace(/ph/g, "f")
-        .replace(/th/g, "t")
-        .replace(/ei/g, "ai")
-        .replace(/ie/g, "i")
-        .replace(/eu/g, "oi")
-        .replace(/au/g, "ow")
-        .replace(/tz/g, "ts")
-        .replace(/dt/g, "t")
-        .replace(/nn/g, "n")
-        .replace(/mm/g, "m")
-        .replace(/ll/g, "l")
-        .replace(/ss/g, "s")
-        .replace(/ff/g, "f")
-        .replace(/tt/g, "t")
-        .replace(/pp/g, "p")
-        .replace(/bb/g, "b")
-        .replace(/dd/g, "d")
-        .replace(/gg/g, "g");
+        .replace(/sch/g, "sh").replace(/ch/g, "k").replace(/ck/g, "k")
+        .replace(/ph/g, "f").replace(/th/g, "t").replace(/ei/g, "ai")
+        .replace(/ie/g, "i").replace(/eu/g, "oi").replace(/au/g, "ow")
+        .replace(/tz/g, "ts").replace(/dt/g, "t")
+        .replace(/nn/g, "n").replace(/mm/g, "m").replace(/ll/g, "l")
+        .replace(/ss/g, "s").replace(/ff/g, "f").replace(/tt/g, "t")
+        .replace(/pp/g, "p").replace(/bb/g, "b").replace(/dd/g, "d").replace(/gg/g, "g");
 }
 
-function phoneticSimilarity(a, b) {
-    const pa = phoneticNormalize(a);
-    const pb = phoneticNormalize(b);
-    return levenshteinSimilarity(pa, pb);
-}
+function phoneticSimilarity(a, b) { return levenshteinSimilarity(phoneticNormalize(a), phoneticNormalize(b)); }
 
 function wordOverlap(a, b) {
-    const wordsA = a.split(" ").filter(w => w.length > 1);
-    const wordsB = b.split(" ").filter(w => w.length > 1);
-
-    if (wordsA.length === 0 || wordsB.length === 0) return 0;
-
-    let matchCount = 0;
-    const usedB = new Set();
-
-    for (const wa of wordsA) {
-        let bestWordMatch = 0;
-        let bestIdx = -1;
-
-        for (let i = 0; i < wordsB.length; i++) {
-            if (usedB.has(i)) continue;
-            const wb = wordsB[i];
-
-            if (wa === wb) {
-                bestWordMatch = 1;
-                bestIdx = i;
-                break;
-            }
-
-            const wSim = levenshteinSimilarity(wa, wb);
-            if (wSim > bestWordMatch && wSim > 0.6) {
-                bestWordMatch = wSim;
-                bestIdx = i;
-            }
-
-            // Phonetic word match
-            const pSim = levenshteinSimilarity(phoneticNormalize(wa), phoneticNormalize(wb));
-            if (pSim > bestWordMatch && pSim > 0.65) {
-                bestWordMatch = pSim;
-                bestIdx = i;
-            }
+    const wa = a.split(" ").filter(w => w.length > 1), wb = b.split(" ").filter(w => w.length > 1);
+    if (!wa.length || !wb.length) return 0;
+    let mc = 0; const used = new Set();
+    for (const w of wa) {
+        let bm = 0, bi = -1;
+        for (let i = 0; i < wb.length; i++) {
+            if (used.has(i)) continue;
+            if (w === wb[i]) { bm = 1; bi = i; break; }
+            let s = levenshteinSimilarity(w, wb[i]);
+            if (s > bm && s > 0.6) { bm = s; bi = i; }
+            let p = levenshteinSimilarity(phoneticNormalize(w), phoneticNormalize(wb[i]));
+            if (p > bm && p > 0.65) { bm = p; bi = i; }
         }
-
-        if (bestIdx >= 0) {
-            matchCount += bestWordMatch;
-            usedB.add(bestIdx);
-        }
+        if (bi >= 0) { mc += bm; used.add(bi); }
     }
-
-    const maxLen = Math.max(wordsA.length, wordsB.length);
-    return matchCount / maxLen;
+    return mc / Math.max(wa.length, wb.length);
 }
 
 function similarity(a, b) {
-    if (a === b) return 1;
-    if (!a || !b) return 0;
-
-    const charSim = levenshteinSimilarity(a, b);
-    const wSim = wordOverlap(a, b);
-    const pSim = phoneticSimilarity(a, b);
-
-    return Math.max(charSim, wSim, pSim);
+    if (a === b) return 1; if (!a || !b) return 0;
+    return Math.max(levenshteinSimilarity(a, b), wordOverlap(a, b), phoneticSimilarity(a, b));
 }
 
 function levenshteinSimilarity(a, b) {
-    const dist = levenshteinDistance(a, b);
-    const maxLen = Math.max(a.length, b.length);
-    if (maxLen === 0) return 1;
-    return 1 - dist / maxLen;
+    const d = levenshteinDistance(a, b), mx = Math.max(a.length, b.length);
+    return mx === 0 ? 1 : 1 - d / mx;
 }
 
 function levenshteinDistance(a, b) {
-    const m = a.length;
-    const n = b.length;
+    const m = a.length, n = b.length;
     const dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
-
     for (let i = 0; i <= m; i++) dp[i][0] = i;
     for (let j = 0; j <= n; j++) dp[0][j] = j;
-
-    for (let i = 1; i <= m; i++) {
+    for (let i = 1; i <= m; i++)
         for (let j = 1; j <= n; j++) {
             const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-            dp[i][j] = Math.min(
-                dp[i - 1][j] + 1,
-                dp[i][j - 1] + 1,
-                dp[i - 1][j - 1] + cost
-            );
+            dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
         }
-    }
     return dp[m][n];
 }
 
 // ===== UI HELPERS =====
-function showHint() {
-    document.getElementById("hintText").classList.toggle("visible");
-}
+function showHint() { document.getElementById("hintText").classList.toggle("visible"); }
 
 function showExpectedAnswer() {
     if (!currentQuestion) return;
-    const feedbackEl = document.getElementById("feedback");
-    const iconEl = document.getElementById("feedbackIcon");
-    const textEl = document.getElementById("feedbackText");
-    const expectedEl = document.getElementById("expectedAnswer");
-
-    feedbackEl.classList.remove("correct", "partial", "incorrect");
-    feedbackEl.classList.add("visible", "partial");
-    iconEl.textContent = "📖";
-    textEl.textContent = "Here are the accepted answers — practice saying them out loud!";
-    expectedEl.innerHTML = `<strong>Accepted answers:</strong><br>${currentQuestion.answers.join("<br>")}`;
+    const fb = document.getElementById("feedback");
+    fb.classList.remove("correct", "partial", "incorrect");
+    fb.classList.add("visible", "partial");
+    document.getElementById("feedbackIcon").textContent = "📖";
+    document.getElementById("feedbackText").textContent = "Accepted answers — practice saying them out loud!";
+    document.getElementById("expectedAnswer").innerHTML = `<strong>Accepted:</strong><br>${currentQuestion.answers.join("<br>")}`;
 }
 
 function updateScore() {
