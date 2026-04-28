@@ -14,4 +14,4 @@ Sproochentest A1 preparation app — listen to questions, speak or type your ans
 - Hints and answer reveal
 
 ## How to use
-Open in Chrome for best experience. Click 🔊 to hear the question, then type or speak your answer. Vill Spaass! 🇱🇺
+Open in Chrome for best experience. Click 🔊 to hear the question, then type or speak your answer. Vill Spaass beim Léieren! 🇱🇺
