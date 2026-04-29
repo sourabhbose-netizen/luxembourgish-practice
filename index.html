@@ -156,6 +156,25 @@
         .view-btn { background: rgba(255,255,255,0.08); color: #a0a0b0; border: 1px solid rgba(255,255,255,0.15); }
         .view-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
 
+        /* ===== QUIZ STYLES ===== */
+        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); color: #a0a0b0; font-size: 0.85rem; }
+        .quiz-question { font-size: 1.3rem; color: #fff; line-height: 1.5; margin-bottom: 20px; }
+        .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+        .quiz-option { display: flex; align-items: center; gap: 12px; padding: 14px 18px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; color: #e0e0e0; font-size: 1rem; cursor: pointer; transition: all 0.2s; text-align: left; }
+        .quiz-option:hover:not(.disabled) { background: rgba(233,69,96,0.1); border-color: #e94560; }
+        .quiz-option.disabled { cursor: default; }
+        .quiz-option.correct { background: rgba(0,200,83,0.15); border-color: rgba(0,200,83,0.5); color: #a0f0a0; }
+        .quiz-option.wrong { background: rgba(233,69,96,0.15); border-color: rgba(233,69,96,0.5); color: #f0a0a0; }
+        .quiz-option-letter { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: rgba(255,255,255,0.1); border-radius: 50%; font-size: 0.8rem; font-weight: bold; color: #e94560; flex-shrink: 0; }
+        .quiz-explanation { margin-top: 15px; padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; line-height: 1.5; }
+        .quiz-explanation.correct { background: rgba(0,200,83,0.1); border: 1px solid rgba(0,200,83,0.2); color: #b0d0b0; }
+        .quiz-explanation.wrong { background: rgba(233,69,96,0.1); border: 1px solid rgba(233,69,96,0.2); color: #d0b0b0; }
+        .quiz-explanation strong { margin-right: 6px; }
+        .quiz-result-emoji { font-size: 4rem; margin-bottom: 10px; }
+        .quiz-result-score { font-size: 2.5rem; color: #e94560; font-weight: bold; }
+        .quiz-result-pct { font-size: 1.2rem; color: #888; margin-bottom: 10px; }
+        .quiz-result-msg { font-size: 1rem; color: #a0a0b0; margin-bottom: 10px; }
+
         /* Floating feedback button */
         .floating-feedback { position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; background: #e94560; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; text-decoration: none; box-shadow: 0 4px 15px rgba(233,69,96,0.4); z-index: 1000; transition: all 0.3s; }
         .floating-feedback:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(233,69,96,0.6); }
@@ -173,6 +192,7 @@
             <button class="tab-btn active" onclick="switchTab('practice', this)">📝 Practice</button>
             <button class="tab-btn" onclick="switchTab('tutor', this)">🤖 AI Tutor <span class="beta-badge">Upcoming Beta</span></button>
             <button class="tab-btn" onclick="switchTab('textbook', this)">📚 A1 Textbook Exercises</button>
+            <button class="tab-btn" onclick="switchTab('quiz', this)">🧩 Quiz</button>
         </div>
 
         <!-- ===== PRACTICE TAB ===== -->
@@ -261,6 +281,59 @@
                 <div id="textbookContent"></div>
             </div>
         </div>
+        <!-- ===== QUIZ TAB ===== -->
+        <div class="tab-content" id="tab-quiz">
+            <!-- Setup screen -->
+            <div class="card" id="quizSetup">
+                <h3 style="color:#e94560;margin-bottom:5px">🧩 A1 Level Quiz</h3>
+                <p style="color:#888;font-size:0.85rem;margin-bottom:20px">Test your Luxembourgish knowledge with multiple choice questions. Pick a topic and go!</p>
+
+                <div style="margin-bottom:15px">
+                    <label style="color:#a0a0b0;font-size:0.85rem;display:block;margin-bottom:8px">Choose a topic:</label>
+                    <div class="category-bar" id="quizCategoryBar"></div>
+                </div>
+
+                <div style="margin-bottom:20px;text-align:center">
+                    <label style="color:#a0a0b0;font-size:0.85rem">Number of questions: </label>
+                    <select id="quizCount" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:6px 12px;border-radius:6px;font-size:0.9rem">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                    </select>
+                </div>
+
+                <div style="text-align:center">
+                    <button class="btn btn-record" onclick="startQuiz()" style="font-size:1.1rem;padding:14px 40px">🚀 Start Quiz</button>
+                </div>
+            </div>
+
+            <!-- Play screen -->
+            <div class="card" id="quizPlay" style="display:none">
+                <div class="quiz-header">
+                    <span id="quizProgress">Question 1 of 10</span>
+                    <span id="quizScoreDisplay">Score: 0/0</span>
+                </div>
+
+                <div class="quiz-question" id="quizQuestionText"></div>
+                <div class="quiz-options" id="quizOptions"></div>
+                <div class="quiz-explanation" id="quizExplanation" style="display:none"></div>
+
+                <div style="text-align:center;margin-top:15px">
+                    <button class="btn btn-next" id="quizNextBtn" onclick="nextQuizQuestion()" style="display:none">➡️ Next Question</button>
+                </div>
+            </div>
+
+            <!-- Result screen -->
+            <div class="card" id="quizResult" style="display:none;text-align:center">
+                <div id="quizResultContent"></div>
+                <div style="margin-top:20px;display:flex;gap:10px;justify-content:center">
+                    <button class="btn btn-record" onclick="startQuiz()">🔄 Try Again</button>
+                    <button class="btn btn-next" onclick="restartQuiz()">📋 Change Topic</button>
+                </div>
+            </div>
+        </div>
+
         <!-- FEEDBACK SECTION -->
         <div class="feedback-section">
             <h3>💬 Feedback</h3>
@@ -281,6 +354,7 @@
     // Tab switching
     let tutorInitialized = false;
     let textbookInitialized = false;
+    let quizInitialized = false;
     function switchTab(tabId, btn) {
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -288,11 +362,13 @@
         btn.classList.add('active');
         if (tabId === 'tutor' && !tutorInitialized) { tutorInitialized = true; initTutor(); }
         if (tabId === 'textbook' && !textbookInitialized) { textbookInitialized = true; initTextbook(); }
+        if (tabId === 'quiz' && !quizInitialized) { quizInitialized = true; initQuiz(); }
     }
     </script>
     <script src="questions.js"></script>
     <script src="app.js"></script>
     <script src="tutor.js"></script>
     <script src="textbook.js"></script>
+    <script src="quiz.js"></script>
 </body>
 </html>
