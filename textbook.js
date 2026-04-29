@@ -178,6 +178,76 @@ const TEXTBOOK = [
                 ]
             },
         ]
+    },
+    {
+        chapter: "Kapitel 3",
+        title: "Work, Professions, Transport & Time",
+        pdfAnswers: "https://sdl.inll.lu/wp-content/uploads/2023/03/leisungen_a1_kapitel-3_2021_0.1.pdf",
+        pdfExtra: "https://sdl.inll.lu/wp-content/uploads/2023/03/zousazmaterial-k3_2020_1.0a.pdf",
+        sections: [
+            {
+                title: "Op der Aarbecht (Säit 37)",
+                exercises: [
+                    { audio: 62, desc: "Kuckt d'Biller a lauschtert. Nummeréiert d'Zeenen.", answer: "Zeen 1–7: Informatiker (Zeen 4) | Direktesch (Zeen 5) | Informatikerin (Zeen 4) | Employé (Zeen 5) | Aarbechter (Zeen 7) | Botzfra (Zeen 3) | Mecanicien (Zeen 1) | Receptionnist (Zeen 6) | Sekretärin (Zeen 2)" },
+                    { audio: 63, desc: "Lauschtert d'Dialogen.", answer: null },
+                ]
+            },
+            {
+                title: "Wat schaffe si? (Säit 38-39)",
+                exercises: [
+                    { audio: 64, desc: "Wou sinn d'Leit? Dialog 1", answer: "An enger Bäckerei" },
+                    { audio: 65, desc: "Wou sinn d'Leit? Dialog 2", answer: "Bei engem Dokter" },
+                    { audio: 66, desc: "Wou sinn d'Leit? Dialog 3", answer: "Op enger Gare" },
+                    { audio: 67, desc: "Liest d'Sätz a lauschtert. Richteg (R) oder falsch (F)?", answer: "1: R (Julia schafft an enger Schoul) | 2: F (Grégory mécht net Fotoe vu Persounen) | 3: R (Jenny fiert mam Bus 22) | 4: F (Victor schafft net an engem Hotel) | 5: R (Tom schafft zu Sandweiler) | 6: R (Steve verkeeft Handyen a Computeren) | 7: F (Marise schafft net an enger Firma) | 8: F (Fränz schafft net als Iwwersetzer)" },
+                ]
+            },
+            {
+                title: "Wou schaffe si? (Säit 40-41)",
+                exercises: [
+                    { audio: 68, desc: "Lauschtert den Dialog.", answer: null },
+                    { audio: 69, desc: "Aarbechtsannoncen — Dialog 1", answer: "Dialog 1 = Annonce 4 (Alex)" },
+                    { audio: 70, desc: "Aarbechtsannoncen — Dialog 2", answer: "Dialog 2 = Annonce 1 (Annette)" },
+                    { audio: 71, desc: "Aarbechtsannoncen — Dialog 3", answer: "Dialog 3 = Annonce 2 (Myriam)" },
+                ]
+            },
+            {
+                title: "Wéi vill Auer ass et? (Säit 44)",
+                exercises: [
+                    { audio: 72, desc: "Wéi vill Auer ass et? Lauschtert an notéiert.", answer: "1: Et ass 6 Auer (sechs Auer) | 2: Et ass 12 Auer (zwielef Auer) | 3: Et ass 7 Auer (siwen Auer)" },
+                    { audio: 73, desc: "Lauschtert d'Auerzäiten.", answer: null },
+                    { audio: 74, desc: "Lauschtert a wiederholt.", answer: null },
+                    { audio: 75, desc: "Wat héiert Dir? Lauschtert a kräizt un.", answer: "1: 18:30 | 2: 10:30 | 3: 12:25 | 4: 20:35 | 5: 17:05" },
+                    { audio: 76, desc: "Wéini fänke si un? Wéini hale si op? — Persoun 1", answer: "Ufank: um 17:00 (fënnef Auer mëttes) | Schluss: um 01:30 (hallwer zwou nuets)" },
+                    { audio: 77, desc: "Persoun 2", answer: "Ufank: um 8:00 (aacht Auer moies) | Schluss: um 17:30 (hallwer sechs owes)" },
+                    { audio: 78, desc: "Persoun 3", answer: "Ufank: um 6:00 (sechs Auer moies) | Schluss: um 13:30 (hallwer zwou mëttes)" },
+                    { audio: 79, desc: "Persoun 4", answer: "Ufank: um 7:30 (hallwer aacht moies) | Schluss: um 15:45 (Véierel vir véier mëttes)" },
+                    { audio: 80, desc: "Persoun 5", answer: "Ufank: um 8:30 (hallwer néng moies) | Schluss: um 18:00 (sechs Auer owes)" },
+                ]
+            },
+            {
+                title: "Aussprooch: éi - ei - äi (Säit 45)",
+                exercises: [
+                    { audio: 81, desc: "Lauschtert a wiederholt.", answer: null },
+                    { audio: 82, desc: "Wat héiert Dir? éi, ei oder äi?", answer: "1: éi | 2: ei | 3: äi | 4: éi | 5: ei | 6: äi | 7: éi | 8: ei" },
+                ]
+            },
+            {
+                title: "Ass d'Plaz nach fräi? (Säit 46)",
+                exercises: [
+                    { audio: 83, desc: "Lauschtert den Dialog.", answer: "Claudine Hausemer sicht Aarbecht als Babysitter. Schafft am Summer als Monitrice. 19 Joer al. | Madame Scheier brauch Babysitter fir dënschdes an donneschdes owes. Bezilt 10€/Stonn, Weekend 15€/Stonn. | Claudine fiert mam Bus op de Lampertsbierg. Madame Scheier wunnt Rue Victor Hugo Nr 10." },
+                    { audio: 84, desc: "Lauschtert den Dialog nach eng Kéier.", answer: null },
+                ]
+            },
+            {
+                title: "Aussprooch: w - v (Säit 47)",
+                exercises: [
+                    { audio: 85, desc: "Lauschtert a wiederholt — w.", answer: null },
+                    { audio: 86, desc: "Lauschtert a wiederholt — v.", answer: null },
+                    { audio: 87, desc: "Lauschtert: w oder v?", answer: null },
+                    { audio: 88, desc: "Lauschtert a wiederholt.", answer: null },
+                ]
+            },
+        ]
     }
 ];
 
