@@ -96,11 +96,15 @@
         .tb-audio-label { background: #e94560; color: #fff; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; white-space: nowrap; }
         .tb-desc { color: #a0a0b0; font-size: 0.85rem; }
         .tb-audio-player { width: 100%; height: 36px; margin-bottom: 6px; }
-        .tb-answer-toggle { color: #e94560; cursor: pointer; font-size: 0.8rem; padding: 4px 0; }
-        .tb-answer-toggle:hover { text-decoration: underline; }
-        .tb-answer { display: none; background: rgba(0,200,83,0.08); border: 1px solid rgba(0,200,83,0.15); border-radius: 6px; padding: 10px; font-size: 0.85rem; color: #b0d0b0; line-height: 1.6; margin-top: 5px; }
+        .tb-answer-btn { display: block; margin-top: 6px; padding: 8px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #666; border-radius: 8px; cursor: not-allowed; font-size: 0.85rem; transition: all 0.3s; width: 100%; text-align: left; }
+        .tb-answer-btn:disabled { opacity: 0.6; }
+        .tb-answer-btn.unlocked { cursor: pointer; color: #e94560; border-color: #e94560; background: rgba(233,69,96,0.08); opacity: 1; }
+        .tb-answer-btn.unlocked:hover { background: rgba(233,69,96,0.15); }
+        .tb-answer-btn.pulse-hint { animation: pulse-answer 0.5s ease 2; }
+        @keyframes pulse-answer { 0%,100%{transform:scale(1)} 50%{transform:scale(1.02); background:rgba(233,69,96,0.2)} }
+        .tb-answer { display: none; background: rgba(0,200,83,0.08); border: 1px solid rgba(0,200,83,0.15); border-radius: 6px; padding: 12px; font-size: 0.85rem; color: #b0d0b0; line-height: 1.8; margin-top: 6px; }
         .tb-answer.visible { display: block; }
-        .tb-no-answer { font-size: 0.8rem; color: #666; font-style: italic; }
+        .tb-no-answer { font-size: 0.8rem; color: #666; font-style: italic; margin-top: 6px; }
 
         /* ===== TUTOR CHAT STYLES ===== */
         .chat-container { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; height: 600px; }
@@ -151,7 +155,7 @@
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('practice', this)">📝 Practice</button>
             <button class="tab-btn" onclick="switchTab('tutor', this)">🤖 AI Tutor</button>
-            <button class="tab-btn" onclick="switchTab('textbook', this)">📚 Textbook</button>
+            <button class="tab-btn" onclick="switchTab('textbook', this)">📚 A1 Textbook Exercises</button>
         </div>
 
         <!-- ===== PRACTICE TAB ===== -->

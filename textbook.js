@@ -182,13 +182,58 @@ const TEXTBOOK = [
 ];
 
 // ===== RENDER TEXTBOOK =====
+let exerciseCounter = 0;
+
 function initTextbook() {
     const container = document.getElementById("textbookContent");
     container.innerHTML = "";
+    exerciseCounter = 0;
 
     TEXTBOOK.forEach(chapter => {
         const chDiv = document.createElement("div");
         chDiv.className = "tb-chapter";
+
+        let sectionsHtml = chapter.sections.map(sec => {
+            let exercisesHtml = sec.exercises.map(ex => {
+                const id = `ex-${exerciseCounter++}`;
+                const audioSrc = `${AUDIO_BASE}Audio-${String(ex.audio).padStart(2, '0')}.mp3`;
+
+                let answerHtml;
+                if (ex.answer) {
+                    // Format answer: replace | with line breaks for readability
+                    const formattedAnswer = ex.answer.replace(/\s*\|\s*/g, "<br>");
+                    answerHtml = `
+                        <button class="tb-answer-btn" id="btn-${id}" disabled onclick="toggleAnswer('${id}', this)">
+                            🔒 Listen first, then show answer
+                        </button>
+                        <div class="tb-answer" id="ans-${id}">${formattedAnswer}</div>
+                    `;
+                } else {
+                    answerHtml = `<div class="tb-no-answer">🎧 Listening / pronunciation exercise</div>`;
+                }
+
+                return `
+                    <div class="tb-exercise">
+                        <div class="tb-exercise-header">
+                            <span class="tb-audio-label">Audio ${ex.audio}</span>
+                            <span class="tb-desc">${ex.desc}</span>
+                        </div>
+                        <audio controls preload="none" class="tb-audio-player" id="audio-${id}"
+                               onplay="unlockAnswer('${id}')" onended="highlightAnswer('${id}')">
+                            <source src="${audioSrc}" type="audio/mpeg">
+                        </audio>
+                        ${answerHtml}
+                    </div>
+                `;
+            }).join("");
+
+            return `
+                <div class="tb-section">
+                    <h4>${sec.title}</h4>
+                    ${exercisesHtml}
+                </div>
+            `;
+        }).join("");
 
         chDiv.innerHTML = `
             <div class="tb-chapter-header" onclick="this.parentElement.classList.toggle('open')">
@@ -197,32 +242,38 @@ function initTextbook() {
             </div>
             <div class="tb-chapter-body">
                 <div class="tb-links">
-                    <a href="${chapter.pdfAnswers}" target="_blank">📄 Answer Key (PDF)</a>
+                    <a href="${chapter.pdfAnswers}" target="_blank">📄 Full Answer Key (PDF)</a>
                     <a href="${chapter.pdfExtra}" target="_blank">📄 Supplementary Material</a>
+                    <a href="https://sdl.inll.lu/book-a1-2017-2018-2020-2021/" target="_blank">📖 INLL Website</a>
                 </div>
-                ${chapter.sections.map(sec => `
-                    <div class="tb-section">
-                        <h4>${sec.title}</h4>
-                        ${sec.exercises.map(ex => `
-                            <div class="tb-exercise">
-                                <div class="tb-exercise-header">
-                                    <span class="tb-audio-label">Audio ${ex.audio}</span>
-                                    <span class="tb-desc">${ex.desc}</span>
-                                </div>
-                                <audio controls preload="none" class="tb-audio-player">
-                                    <source src="${AUDIO_BASE}Audio-${String(ex.audio).padStart(2, '0')}.mp3" type="audio/mpeg">
-                                </audio>
-                                ${ex.answer ? `
-                                    <div class="tb-answer-toggle" onclick="this.nextElementSibling.classList.toggle('visible'); this.textContent = this.nextElementSibling.classList.contains('visible') ? '🙈 Hide Answer' : '👁️ Show Answer'">👁️ Show Answer</div>
-                                    <div class="tb-answer">${ex.answer}</div>
-                                ` : '<div class="tb-no-answer">🎧 Listening exercise — no written answer</div>'}
-                            </div>
-                        `).join("")}
-                    </div>
-                `).join("")}
+                ${sectionsHtml}
             </div>
         `;
 
         container.appendChild(chDiv);
     });
+}
+
+function unlockAnswer(id) {
+    const btn = document.getElementById(`btn-${id}`);
+    if (btn && btn.disabled) {
+        btn.disabled = false;
+        btn.textContent = "👁️ Show Answer";
+        btn.classList.add("unlocked");
+    }
+}
+
+function highlightAnswer(id) {
+    const btn = document.getElementById(`btn-${id}`);
+    if (btn) {
+        btn.classList.add("pulse-hint");
+        setTimeout(() => btn.classList.remove("pulse-hint"), 2000);
+    }
+}
+
+function toggleAnswer(id, btn) {
+    const ans = document.getElementById(`ans-${id}`);
+    if (!ans) return;
+    const showing = ans.classList.toggle("visible");
+    btn.textContent = showing ? "🙈 Hide Answer" : "👁️ Show Answer";
 }
