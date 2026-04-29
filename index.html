@@ -144,6 +144,17 @@
         .chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
 
         footer { text-align: center; padding: 20px; color: #555; font-size: 0.8rem; }
+
+        /* ===== FEEDBACK SECTION ===== */
+        .feedback-section { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; margin-top: 10px; text-align: center; }
+        .feedback-section h3 { color: #e94560; margin-bottom: 8px; font-size: 1rem; }
+        .feedback-section p { color: #888; font-size: 0.85rem; margin-bottom: 15px; }
+        .feedback-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .feedback-btn { padding: 10px 20px; border-radius: 10px; text-decoration: none; font-size: 0.9rem; transition: all 0.3s; display: inline-flex; align-items: center; gap: 6px; }
+        .submit-btn { background: #e94560; color: #fff; }
+        .submit-btn:hover { background: #ff6b81; }
+        .view-btn { background: rgba(255,255,255,0.08); color: #a0a0b0; border: 1px solid rgba(255,255,255,0.15); }
+        .view-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
     </style>
 </head>
 <body>
@@ -244,6 +255,15 @@
                 <h3 style="color:#e94560;margin-bottom:5px">📚 Schwätzt Dir Lëtzebuergesch? — Official INLL A1 Textbook</h3>
                 <p style="color:#888;font-size:0.85rem;margin-bottom:15px">Audio exercises with embedded players and answer keys from the official Sproochentest preparation book.</p>
                 <div id="textbookContent"></div>
+            </div>
+        </div>
+        <!-- FEEDBACK SECTION -->
+        <div class="feedback-section">
+            <h3>💬 Feedback</h3>
+            <p>Help improve this app! Share suggestions, report issues, or request new features.</p>
+            <div class="feedback-buttons">
+                <a href="https://github.com/sourabhbose-netizen/luxembourgish-practice/issues/new?template=feedback.md&title=%5BFeedback%5D+&labels=feedback" target="_blank" class="feedback-btn submit-btn">✍️ Submit Feedback</a>
+                <a href="https://github.com/sourabhbose-netizen/luxembourgish-practice/issues?q=label%3Afeedback" target="_blank" class="feedback-btn view-btn">👁️ View All Feedback</a>
             </div>
         </div>
     </div>
