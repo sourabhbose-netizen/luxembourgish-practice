@@ -156,6 +156,22 @@
         .view-btn { background: rgba(255,255,255,0.08); color: #a0a0b0; border: 1px solid rgba(255,255,255,0.15); }
         .view-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
 
+        /* ===== LISTENING ASSISTANT STYLES ===== */
+        .listen-status { text-align: center; padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; font-size: 0.9rem; }
+        .listen-status.ready { background: rgba(0,200,83,0.1); color: #66bb6a; }
+        .listen-status.recording { background: rgba(233,69,96,0.2); color: #ff6b81; }
+        .listen-status.processing { background: rgba(255,193,7,0.15); color: #ffc107; }
+        .listen-status.success { background: rgba(0,200,83,0.1); color: #66bb6a; }
+        .listen-status.error { background: rgba(233,69,96,0.1); color: #e94560; }
+        .listen-transcript { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 15px; margin-bottom: 12px; }
+        .listen-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 6px; }
+        .listen-text { font-size: 1.2rem; color: #fff; line-height: 1.5; }
+        .listen-answer { background: rgba(0,200,83,0.08); border: 1px solid rgba(0,200,83,0.2); border-radius: 10px; padding: 15px; }
+        .listen-answer.error { background: rgba(233,69,96,0.08); border-color: rgba(233,69,96,0.2); }
+        .listen-answer-text { font-size: 1rem; color: #e0e0e0; line-height: 1.8; }
+        .listen-answer-loading { text-align: center; color: #ffc107; padding: 15px; font-size: 0.9rem; }
+        .manual-listen-input { margin: 15px 0; }
+
         /* ===== GRAMMAR REFERENCE STYLES ===== */
         .gr-section { margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; overflow: hidden; }
         .gr-section-header { padding: 14px 20px; background: rgba(255,255,255,0.05); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
@@ -217,6 +233,7 @@
             <button class="tab-btn" onclick="switchTab('tutor', this)">🤖 AI Tutor <span class="beta-badge">Upcoming Beta</span></button>
             <button class="tab-btn" onclick="switchTab('textbook', this)">📚 A1 Textbook Exercises</button>
             <button class="tab-btn" onclick="switchTab('quiz', this)">🧩 Quiz</button>
+            <button class="tab-btn" onclick="switchTab('listening', this)">🎧 Listening Assistant</button>
             <button class="tab-btn" onclick="switchTab('grammar', this)">📖 Grammar Guide</button>
         </div>
 
@@ -359,6 +376,30 @@
             </div>
         </div>
 
+        <!-- ===== LISTENING ASSISTANT TAB ===== -->
+        <div class="tab-content" id="tab-listening">
+            <div class="card" style="padding:25px">
+                <h3 style="color:#e94560;margin-bottom:5px">🎧 Listening Assistant</h3>
+                <p style="color:#888;font-size:0.85rem;margin-bottom:15px">Click "Listen" when a question is being asked in Luxembourgish. The app transcribes it and provides the answer.</p>
+
+                <div class="listen-status ready" id="listenStatus">🎤 Ready — click Listen when a question starts</div>
+
+                <div style="text-align:center;margin:20px 0">
+                    <button class="btn btn-record" id="listenBtn" onclick="toggleListening()" style="font-size:1.1rem;padding:16px 40px">🎤 Listen</button>
+                </div>
+
+                <div class="manual-listen-input" id="manualListenInput" style="display:none">
+                    <label style="color:#a0a0b0;font-size:0.85rem;display:block;margin-bottom:5px">⌨️ Or type the question you heard:</label>
+                    <div class="input-row">
+                        <input type="text" class="manual-input" id="manualListenText" placeholder="Type the Luxembourgish question here..." onkeydown="if(event.key==='Enter') submitManualListen()">
+                        <button class="manual-submit" onclick="submitManualListen()">Get Answer</button>
+                    </div>
+                </div>
+
+                <div id="listenResult"></div>
+            </div>
+        </div>
+
         <!-- ===== GRAMMAR GUIDE TAB ===== -->
         <div class="tab-content" id="tab-grammar">
             <div class="card" style="padding:20px">
@@ -389,6 +430,7 @@
     let tutorInitialized = false;
     let textbookInitialized = false;
     let quizInitialized = false;
+    let listeningInitialized = false;
     let grammarInitialized = false;
     function switchTab(tabId, btn) {
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -398,6 +440,7 @@
         if (tabId === 'tutor' && !tutorInitialized) { tutorInitialized = true; initTutor(); }
         if (tabId === 'textbook' && !textbookInitialized) { textbookInitialized = true; initTextbook(); }
         if (tabId === 'quiz' && !quizInitialized) { quizInitialized = true; initQuiz(); }
+        if (tabId === 'listening' && !listeningInitialized) { listeningInitialized = true; initListeningAssistant(); }
         if (tabId === 'grammar' && !grammarInitialized) { grammarInitialized = true; initGrammarRef(); }
     }
     </script>
@@ -406,6 +449,7 @@
     <script src="tutor.js"></script>
     <script src="textbook.js"></script>
     <script src="quiz.js"></script>
+    <script src="listening.js"></script>
     <script src="grammar-ref.js"></script>
 </body>
 </html>
