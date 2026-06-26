@@ -1,12 +1,47 @@
 // ===== LISTENING ASSISTANT =====
-// Records audio → sends to LuxASR → transcribes → sends to Gemini for answer
+// Records via browser speech recognition → sends to Gemini for answer
 
-let listenRecorder = null;
-let listenChunks = [];
 let isListening = false;
+let listenRecognition = null;
+let listenTranscript = "";
 
 function initListeningAssistant() {
     document.getElementById("listenResult").innerHTML = '<p style="color:#888;text-align:center">Click "🎤 Listen" when a question is being asked in Luxembourgish.<br>The app will transcribe it and provide the answer.</p>';
+
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SR) {
+        listenRecognition = new SR();
+        listenRecognition.continuous = true;
+        listenRecognition.interimResults = true;
+        listenRecognition.maxAlternatives = 5;
+        listenRecognition.lang = "de-DE"; // German as proxy for Luxembourgish
+
+        listenRecognition.onresult = (event) => {
+            let interim = "", final = "";
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal) {
+                    final += event.results[i][0].transcript;
+                } else {
+                    interim += event.results[i][0].transcript;
+                }
+            }
+            if (final) listenTranscript += final + " ";
+            document.getElementById("listenLiveText").textContent = listenTranscript + interim;
+        };
+
+        listenRecognition.onerror = (e) => {
+            if (e.error === "aborted") return;
+            document.getElementById("listenStatus").textContent = "⚠️ " + e.error;
+            document.getElementById("listenStatus").className = "listen-status error";
+        };
+
+        listenRecognition.onend = () => {
+            if (isListening) try { listenRecognition.start(); } catch(e) {}
+        };
+    } else {
+        document.getElementById("listenStatus").textContent = "⚠️ Speech recognition not available. Use Chrome.";
+        document.getElementById("listenStatus").className = "listen-status error";
+    }
 }
 
 async function toggleListening() {
@@ -17,107 +52,41 @@ async function toggleListening() {
     }
 }
 
-async function startListening() {
-    listenChunks = [];
-    isListening = true;
+function startListening() {
+    if (!listenRecognition) return;
 
-    const btn = document.getElementById("listenBtn");
-    btn.classList.add("recording");
-    btn.innerHTML = "⏹️ Stop Listening";
-    document.getElementById("listenStatus").textContent = "🔴 Listening... (speak the question now)";
+    listenTranscript = "";
+    isListening = true;
+    document.getElementById("listenBtn").classList.add("recording");
+    document.getElementById("listenBtn").innerHTML = "⏹️ Stop & Get Answer";
+    document.getElementById("listenStatus").textContent = "🔴 Listening... speak the question now";
     document.getElementById("listenStatus").className = "listen-status recording";
+    document.getElementById("listenLiveText").textContent = "";
+    document.getElementById("listenLiveBox").style.display = "block";
     document.getElementById("listenResult").innerHTML = "";
 
-    try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        const mimeType = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
-            ? "audio/webm;codecs=opus"
-            : "audio/webm";
-
-        listenRecorder = new MediaRecorder(stream, { mimeType });
-        listenRecorder.ondataavailable = (e) => {
-            if (e.data.size > 0) listenChunks.push(e.data);
-        };
-        listenRecorder.start();
-    } catch (e) {
-        document.getElementById("listenStatus").textContent = "⚠️ Could not access microphone: " + e.message;
-        document.getElementById("listenStatus").className = "listen-status error";
-        isListening = false;
-        btn.classList.remove("recording");
-        btn.innerHTML = "🎤 Listen";
-    }
+    try { listenRecognition.start(); } catch(e) {}
 }
 
-function stopListening() {
+async function stopListening() {
     isListening = false;
-    const btn = document.getElementById("listenBtn");
-    btn.classList.remove("recording");
-    btn.innerHTML = "🎤 Listen";
+    document.getElementById("listenBtn").classList.remove("recording");
+    document.getElementById("listenBtn").innerHTML = "🎤 Listen";
+    try { listenRecognition.stop(); } catch(e) {}
 
-    if (listenRecorder && listenRecorder.state !== "inactive") {
-        listenRecorder.onstop = async () => {
-            listenRecorder.stream.getTracks().forEach(t => t.stop());
-
-            if (listenChunks.length === 0) {
-                document.getElementById("listenStatus").textContent = "⚠️ No audio recorded";
-                document.getElementById("listenStatus").className = "listen-status error";
-                return;
-            }
-
-            const audioBlob = new Blob(listenChunks, { type: listenRecorder.mimeType });
-            document.getElementById("listenStatus").textContent = "⏳ Sending to LuxASR for transcription...";
-            document.getElementById("listenStatus").className = "listen-status processing";
-
-            await processListeningAudio(audioBlob);
-        };
-        listenRecorder.stop();
-    }
-}
-
-async function processListeningAudio(audioBlob) {
-    let transcript = "";
-
-    // Step 1: Send to LuxASR
-    try {
-        const formData = new FormData();
-        const ext = audioBlob.type.includes("webm") ? "webm" : "ogg";
-        formData.append("audio_file", audioBlob, `recording.${ext}`);
-
-        const response = await fetch(
-            "https://luxasr.uni.lu/v2/asr?diarization=Disabled&outfmt=json&language=lb",
-            { method: "POST", body: formData }
-        );
-
-        if (!response.ok) throw new Error(`LuxASR error: ${response.status}`);
-
-        const data = await response.json();
-
-        if (typeof data === "string") transcript = data;
-        else if (data.text) transcript = data.text;
-        else if (data.segments) transcript = data.segments.map(s => s.text).join(" ");
-        else if (Array.isArray(data)) transcript = data.map(s => s.text || s).join(" ");
-
-        transcript = transcript.trim();
-    } catch (e) {
-        // LuxASR failed (likely CORS) — fall back to showing manual input
-        document.getElementById("listenStatus").textContent = "⚠️ LuxASR unavailable (CORS). Type what you heard instead:";
-        document.getElementById("listenStatus").className = "listen-status error";
-        document.getElementById("manualListenInput").style.display = "flex";
-        return;
-    }
+    const transcript = listenTranscript.trim() || document.getElementById("listenLiveText").textContent.trim();
 
     if (!transcript) {
-        document.getElementById("listenStatus").textContent = "⚠️ Could not detect speech. Try again or type below.";
+        document.getElementById("listenStatus").textContent = "⚠️ No speech detected. Try again or type below.";
         document.getElementById("listenStatus").className = "listen-status error";
         document.getElementById("manualListenInput").style.display = "flex";
         return;
     }
 
-    // Show transcript
-    document.getElementById("listenStatus").textContent = "✅ Transcribed! Now generating answer...";
+    document.getElementById("listenStatus").textContent = "✅ Got it! Generating answer...";
     document.getElementById("listenStatus").className = "listen-status success";
 
-    displayTranscriptAndAnswer(transcript);
+    await displayTranscriptAndAnswer(transcript);
 }
 
 async function submitManualListen() {
@@ -126,13 +95,12 @@ async function submitManualListen() {
     document.getElementById("manualListenInput").style.display = "none";
     document.getElementById("listenStatus").textContent = "✅ Generating answer...";
     document.getElementById("listenStatus").className = "listen-status success";
-    displayTranscriptAndAnswer(input);
+    await displayTranscriptAndAnswer(input);
 }
 
 async function displayTranscriptAndAnswer(transcript) {
     const resultDiv = document.getElementById("listenResult");
 
-    // Show what was heard
     resultDiv.innerHTML = `
         <div class="listen-transcript">
             <div class="listen-label">🎧 Question heard:</div>
@@ -141,7 +109,6 @@ async function displayTranscriptAndAnswer(transcript) {
         <div class="listen-answer-loading">⏳ Generating answer with AI...</div>
     `;
 
-    // Step 2: Send to Gemini for answer
     try {
         const answer = await getAnswerFromGemini(transcript);
         resultDiv.innerHTML = `
@@ -161,7 +128,7 @@ async function displayTranscriptAndAnswer(transcript) {
                 <div class="listen-text">${transcript}</div>
             </div>
             <div class="listen-answer error">
-                <div class="listen-label">⚠️ Could not generate answer:</div>
+                <div class="listen-label">⚠️ Error:</div>
                 <div class="listen-answer-text">${e.message}</div>
             </div>
         `;
@@ -169,6 +136,7 @@ async function displayTranscriptAndAnswer(transcript) {
 
     document.getElementById("listenStatus").textContent = "🎤 Ready — click Listen for the next question";
     document.getElementById("listenStatus").className = "listen-status ready";
+    document.getElementById("listenLiveBox").style.display = "none";
 }
 
 async function getAnswerFromGemini(question) {
@@ -176,25 +144,28 @@ async function getAnswerFromGemini(question) {
 
     const systemPrompt = `You are a Luxembourgish language assistant. A student is listening to questions in Luxembourgish and needs help answering them.
 
-Given a question in Luxembourgish, provide:
-1. The English translation of the question
-2. A suggested answer in Luxembourgish (personalized for Sourabh: Indian, lives in Steinsel, works at Amazon as Product Manager for 10 years, married, student pilot, speaks English/Hindi/Luxembourgish)
-3. The English translation of your suggested answer
+The speech recognition uses German as a proxy, so the transcription may not be perfect Luxembourgish spelling. Interpret it as best you can.
 
-Format your response exactly like this:
-QUESTION (English): [translation]
-ANSWER (Lëtzebuergesch): [your suggested answer]
-ANSWER (English): [translation of answer]
+Given a question (possibly imperfectly transcribed from Luxembourgish), provide:
+1. What the question likely is in proper Luxembourgish
+2. The English translation
+3. A suggested answer in Luxembourgish (personalized for Sourabh: Indian from Delhi, lives in Steinsel, works at Amazon as Product Manager in EU Compliance for 10 years, married, student pilot, speaks English/Hindi/Luxembourgish)
+4. The English translation of the answer
 
-Keep answers simple, A1/A2 level. Use the Perfekt tense for past, Futur proche for future.
-If the question is not clear or not a question, just explain what was said.`;
+Format your response like this:
+🇱🇺 Question: [corrected Luxembourgish]
+📘 English: [translation]
+🇱🇺 Answer: [suggested answer in Luxembourgish]
+📘 Answer (English): [translation]
+
+Keep answers simple, A1/A2 level. Use Perfekt for past, Futur proche for future.`;
 
     const response = await fetch(GEMINI_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             system_instruction: { parts: [{ text: systemPrompt }] },
-            contents: [{ role: "user", parts: [{ text: `Question heard: "${question}"` }] }],
+            contents: [{ role: "user", parts: [{ text: `Transcribed question: "${question}"` }] }],
             generationConfig: { temperature: 0.5, maxOutputTokens: 512 }
         })
     });
@@ -212,7 +183,6 @@ function formatListenAnswer(text) {
     return text
         .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
         .replace(/\n/g, "<br>")
-        .replace(/QUESTION \(English\):/g, "<strong>📘 Question (English):</strong>")
-        .replace(/ANSWER \(Lëtzebuergesch\):/g, "<strong>🇱🇺 Answer (Lëtzebuergesch):</strong>")
-        .replace(/ANSWER \(English\):/g, "<strong>📘 Answer (English):</strong>");
+        .replace(/🇱🇺/g, "🇱🇺")
+        .replace(/📘/g, "📘");
 }

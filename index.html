@@ -380,12 +380,17 @@
         <div class="tab-content" id="tab-listening">
             <div class="card" style="padding:25px">
                 <h3 style="color:#e94560;margin-bottom:5px">🎧 Listening Assistant</h3>
-                <p style="color:#888;font-size:0.85rem;margin-bottom:15px">Click "Listen" when a question is being asked in Luxembourgish. The app transcribes it and provides the answer.</p>
+                <p style="color:#888;font-size:0.85rem;margin-bottom:15px">Click "Listen" when a question is being asked in Luxembourgish. The app uses your mic to hear the question, then Gemini AI provides the answer. Works best in Chrome.</p>
 
                 <div class="listen-status ready" id="listenStatus">🎤 Ready — click Listen when a question starts</div>
 
                 <div style="text-align:center;margin:20px 0">
                     <button class="btn btn-record" id="listenBtn" onclick="toggleListening()" style="font-size:1.1rem;padding:16px 40px">🎤 Listen</button>
+                </div>
+
+                <div id="listenLiveBox" style="display:none;background:rgba(255,255,255,0.03);border:1px dashed rgba(233,69,96,0.3);border-radius:8px;padding:12px;margin-bottom:15px">
+                    <div style="font-size:0.75rem;color:#888;margin-bottom:5px">LIVE TRANSCRIPTION:</div>
+                    <div id="listenLiveText" style="font-size:1.1rem;color:#fff;min-height:30px"></div>
                 </div>
 
                 <div class="manual-listen-input" id="manualListenInput" style="display:none">
