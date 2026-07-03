@@ -379,13 +379,19 @@
         <!-- ===== LISTENING ASSISTANT TAB ===== -->
         <div class="tab-content" id="tab-listening">
             <div class="card" style="padding:25px">
-                <h3 style="color:#e94560;margin-bottom:5px">🎧 Listening Assistant</h3>
-                <p style="color:#888;font-size:0.85rem;margin-bottom:15px">Click "Listen" when a question is being asked in Luxembourgish. The app uses your mic to hear the question, then Gemini AI provides the answer. Works best in Chrome.</p>
+                <h3 style="color:#e94560;margin-bottom:5px">🎧 Sproochentest Practice</h3>
+                <p style="color:#888;font-size:0.85rem;margin-bottom:15px">The app reads out Sproochentest questions. Practice answering, then check the suggested answer.</p>
 
-                <div class="listen-status ready" id="listenStatus">🎤 Ready — click Listen when a question starts</div>
+                <div class="listen-status ready" id="listenStatus">🎤 Ready — click a button below</div>
 
-                <div style="text-align:center;margin:20px 0">
-                    <button class="btn btn-record" id="listenBtn" onclick="toggleListening()" style="font-size:1.1rem;padding:16px 40px">🎤 Listen</button>
+                <div style="margin-bottom:15px">
+                    <label style="color:#a0a0b0;font-size:0.85rem;display:block;margin-bottom:8px">Filter by theme:</label>
+                    <div id="listenThemeBar" class="category-bar"></div>
+                </div>
+
+                <div style="text-align:center;margin:20px 0;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+                    <button class="btn btn-listen" onclick="speakRandomQuestion()" style="font-size:1.1rem;padding:14px 30px">🔊 Read a Question</button>
+                    <button class="btn btn-record" id="listenMicBtn" onclick="toggleListening()" style="font-size:0.9rem;padding:12px 20px">🎤 Listen to someone</button>
                 </div>
 
                 <div id="listenLiveBox" style="display:none;background:rgba(255,255,255,0.03);border:1px dashed rgba(233,69,96,0.3);border-radius:8px;padding:12px;margin-bottom:15px">
@@ -394,9 +400,9 @@
                 </div>
 
                 <div class="manual-listen-input" id="manualListenInput" style="display:none">
-                    <label style="color:#a0a0b0;font-size:0.85rem;display:block;margin-bottom:5px">⌨️ Or type the question you heard:</label>
+                    <label style="color:#a0a0b0;font-size:0.85rem;display:block;margin-bottom:5px">⌨️ Or type the question:</label>
                     <div class="input-row">
-                        <input type="text" class="manual-input" id="manualListenText" placeholder="Type the Luxembourgish question here..." onkeydown="if(event.key==='Enter') submitManualListen()">
+                        <input type="text" class="manual-input" id="manualListenText" placeholder="Type the Luxembourgish question..." onkeydown="if(event.key==='Enter') submitManualListen()">
                         <button class="manual-submit" onclick="submitManualListen()">Get Answer</button>
                     </div>
                 </div>
