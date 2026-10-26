@@ -96,6 +96,8 @@ Level tags: <span class="lvl-a1">A1</span> foundation &nbsp; <span class="lvl-a2
 <a href="#tenses">⏰ Tenses</a>
 <a href="#adj">🎨 Adjectives</a>
 <a href="#vocab">📚 Vocabulary</a>
+<a href="#practice">📝 Practice</a>
+<a href="#listening">🎧 Listening</a>
 <a href="#how">❓ How to use</a>
 </nav>
 
@@ -610,14 +612,124 @@ Oral Sproochentest: picture description + theme conversation + (listening part i
 </div>
 </section>
 
+<!-- ============ INTERACTIVE PRACTICE ============ -->
+<section id="practice">
+<h2>📝 Interactive grammar practice</h2>
+<div class="explain">
+Pick a category (or "All"), answer each question, then click <strong>Check</strong> to reveal the correct answer. Track how many you attempt. These drill the grammar from the modules above.
+</div>
+
+<div style="margin:10px 0;">
+<label style="font-size:0.9em;color:#555;">Category:
+<select id="catFilter" onchange="buildPractice()" style="padding:6px 10px;border:1px solid #ccc;border-radius:5px;margin-left:6px;">
+<option value="All">All</option>
+<option value="Present tense">Present tense</option>
+<option value="Perfekt (past)">Perfekt (past)</option>
+<option value="hunn/sinn">hunn or sinn?</option>
+<option value="Cases / Dativ">Cases / Dativ</option>
+<option value="Sentence structure">Sentence structure</option>
+<option value="Future / modal">Future / modal</option>
+<option value="Articles / gender">Articles / gender</option>
+<option value="Negation">Negation</option>
+<option value="Comparative">Comparative</option>
+</select>
+</label>
+</div>
+
+<div id="practice-container"></div>
+<div style="text-align:center; margin: 20px 0;">
+<button onclick="showPracticeScore()" style="background:#c0392b;color:white;padding:10px 26px;border:none;border-radius:8px;font-size:1em;cursor:pointer;">Show my score</button>
+<p id="practice-score" style="font-size:1.15em;margin-top:12px;font-weight:bold;"></p>
+</div>
+</section>
+
+<!-- ============ LISTENING PRACTICE ============ -->
+<section id="listening">
+<h2>🎧 Listening practice (Sproochentest format)</h2>
+
+<div class="explain">
+<strong>The real exam.</strong> The Sproochentest has two parts: an <strong>oral production</strong> test (A2 — a conversation on a theme + describing a picture) and a <strong>listening comprehension</strong> test (B1 — you hear audio fragments and answer multiple-choice questions). There is no reading or writing.<br><br>
+From your class notes: the listening part has about <strong>3 texts</strong>, with roughly <strong>4 / 5 / 6-7 questions</strong> each (≈ 12-18 MCQs total), getting harder as they go. One answer is correct; sometimes an option is <em>"dat weess een net"</em> (not stated). On a tablet you get headphones; in some rooms the audio plays on a speaker + paper answer sheet.
+<br><span style="font-size:0.85em;color:#777;">Source (exam format): INLL / luxtoday.lu. Content rephrased.</span>
+</div>
+
+<h3>🔊 Real Luxembourgish audio — listen on RTL (links out)</h3>
+<div class="warn">
+These open on RTL's own site/app — the audio belongs to RTL, so listen there (nothing is copied here). Great for training your ear to natural spoken Luxembourgish.
+</div>
+<table>
+<tr><th>Resource</th><th>What it is</th><th>Link</th></tr>
+<tr><td><strong>RTL Radio Lëtzebuerg (live)</strong></td><td>Live radio — news, talk, everyday spoken Luxembourgish</td><td><a href="https://play.rtl.lu/live/radio" target="_blank" rel="noopener">play.rtl.lu/live/radio</a></td></tr>
+<tr><td><strong>RTL Sproochmates</strong></td><td>Short clips explaining Luxembourgish words/expressions (Alain Atten) — clear, slow, ideal for learners</td><td><a href="https://www.rtl.lu/kultur/sproochmates" target="_blank" rel="noopener">rtl.lu/kultur/sproochmates</a></td></tr>
+<tr><td><strong>RTL Play (podcasts / replay)</strong></td><td>News bulletins and podcasts you can replay as often as you like</td><td><a href="https://play.rtl.lu/" target="_blank" rel="noopener">play.rtl.lu</a></td></tr>
+<tr><td><strong>RTL.lu News (Lëtzebuerg)</strong></td><td>Short news videos/audio in Luxembourgish with real-world vocabulary</td><td><a href="https://www.rtl.lu/news" target="_blank" rel="noopener">rtl.lu/news</a></td></tr>
+</table>
+
+<h3>📘 Practice audio with official answer keys (what you already have)</h3>
+<div class="bookref">
+Your <code>A2-Answer-Keys</code> folder has the INLL A2 book answer keys (Kapitel 1-8) and B1 Kapitel 1-3. For each book listening exercise, play the audio from the INLL site, answer, then check against the key. This is the closest match to the real exam.
+</div>
+
+<h3>🧭 How to practise listening (5-step method)</h3>
+<div class="explain">
+<strong>1.</strong> Read all the questions FIRST (you're allowed to). <strong>2.</strong> Play the audio once, listen for the gist. <strong>3.</strong> Play again and mark answers — questions usually follow the storyline in order. <strong>4.</strong> Don't panic on one word you miss; use the surrounding meaning. <strong>5.</strong> Check your answers, then re-listen to the parts you got wrong.
+</div>
+
+<h3>✍️ Worked examples — exam-style MCQ (read the script, then answer)</h3>
+<p class="explain">These two mini-exercises are written in the Sproochentest MCQ style so you can drill the <em>question format</em>. Read the short script aloud (or have someone read it to you), cover it, and answer. Then reveal the key.</p>
+
+<div class="module open">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">Exercise A — Um Telefon (making plans)</span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<details class="selfcheck"><summary>📄 Show the script (read it first)</summary>
+<p style="margin-top:8px;">
+<em>Tclaude: Salut Anne, et ass den Tclaude. Hues du Loscht, e Samschdeg eppes ze maachen?</em><br>
+<em>Anne: Jo gär! Mä net moies, do ginn ech akafen. Nomëttes hunn ech Zäit.</em><br>
+<em>Claude: Perfekt. Mir kéinten an de Kino goen. Et leeft en neie Film um 16 Auer.</em><br>
+<em>Anne: Kino ass eng gutt Iddi. Treffe mer eis virdrun op e Kaffi?</em><br>
+<em>Claude: Jo, um 15 Auer an der Stad. Bis Samschdeg!</em>
+</p>
+</details>
+<p><strong>1. Wéini huet d'Anne Zäit?</strong><br>A. Moies &nbsp; B. Nomëttes &nbsp; C. Owes</p>
+<p><strong>2. Wat maache si zesummen?</strong><br>A. Si ginn akafen &nbsp; B. Si ginn an de Kino &nbsp; C. Si ginn iessen</p>
+<p><strong>3. Wéini treffe si sech op e Kaffi?</strong><br>A. Um 15 Auer &nbsp; B. Um 16 Auer &nbsp; C. Moies</p>
+<details class="selfcheck"><summary>✅ Show answers</summary><p>1 → <strong>B</strong> (nomëttes; moies geet si akafen) · 2 → <strong>B</strong> (an de Kino) · 3 → <strong>A</strong> (um 15 Auer, virum Film um 16 Auer)</p></details>
+</div>
+</div>
+
+<div class="module">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">Exercise B — Am Supermarché (a short announcement)</span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<details class="selfcheck"><summary>📄 Show the script (read it first)</summary>
+<p style="margin-top:8px;">
+<em>Léif Clienten, mir informéieren Iech: haut gëtt et frëscht Uebst a Geméis am Promotioun. D'Äppel kaschten elo zwee Euro de Kilo. Eise Buttek ass haut bis 20 Auer op. Freideg maache mir eréischt um 8 Auer op. Mir wënschen Iech e schéinen Dag.</em>
+</p>
+</details>
+<p><strong>1. Wat ass haut am Promotioun?</strong><br>A. Fleesch &nbsp; B. Uebst a Geméis &nbsp; C. Brout</p>
+<p><strong>2. Wéi vill kaschten d'Äppel?</strong><br>A. Een Euro de Kilo &nbsp; B. Zwee Euro de Kilo &nbsp; C. Dräi Euro de Kilo</p>
+<p><strong>3. Wéi laang ass de Buttek haut op?</strong><br>A. Bis 18 Auer &nbsp; B. Bis 20 Auer &nbsp; C. Bis 22 Auer</p>
+<p><strong>4. Wéini mécht de Buttek Freideg op?</strong><br>A. Um 8 Auer &nbsp; B. Um 9 Auer &nbsp; C. Dat gëtt net gesot</p>
+<details class="selfcheck"><summary>✅ Show answers</summary><p>1 → <strong>B</strong> (Uebst a Geméis) · 2 → <strong>B</strong> (zwee Euro de Kilo) · 3 → <strong>B</strong> (bis 20 Auer) · 4 → <strong>A</strong> (um 8 Auer)</p></details>
+</div>
+</div>
+
+<div class="explain" style="margin-top:14px;">
+<strong>Want more?</strong> Send me a screenshot of any book listening exercise and I'll give you the official answers from your answer keys. For new audio, use the RTL links above and tell me what you hear — I'll help you check.
+</div>
+</section>
+
 <footer>
-Luxembourgish Grammar Course · A1 → A2 · built for the Sproochentest on 12 Jan 2027 · pair with the A1/A2 books.
+Luxembourgish Grammar Course · A1 → A2 · built for the Sproochentest on 12 Jan 2027 · pair with the A1/A2 books. RTL links open on rtl.lu (audio © RTL).
 </footer>
 
 </div><!-- container -->
 
 <script>
-// Open a module if the URL hash targets a section inside it, and smooth-scroll nav
+// Smooth-scroll nav
 document.querySelectorAll('.nav a, .topbar a').forEach(a => {
   a.addEventListener('click', function(e){
     const href = this.getAttribute('href');
@@ -627,6 +739,110 @@ document.querySelectorAll('.nav a, .topbar a').forEach(a => {
     }
   });
 });
+
+// ===== INTERACTIVE GRAMMAR PRACTICE =====
+const PRACTICE = [
+  // Present tense
+  { cat:"Present tense", q:"Conjugate: ech ___ (schaffen) bei Amazon.", a:"schaffen" },
+  { cat:"Present tense", q:"Conjugate: hien ___ (wunnen) zu Steinsel.", a:"wunnt" },
+  { cat:"Present tense", q:"Conjugate: du ___ (kachen) gär.", a:"kachs" },
+  { cat:"Present tense", q:"Conjugate: mir ___ (spillen) Cricket.", a:"spillen" },
+  { cat:"Present tense", q:"sinn (to be): Dir ___ frou.", a:"sidd" },
+  { cat:"Present tense", q:"hunn (to have): hien ___ eng Duechter.", a:"huet" },
+
+  // Perfekt (past)
+  { cat:"Perfekt (past)", q:"Past participle of 'goen' (to go)?", a:"gaangen" },
+  { cat:"Perfekt (past)", q:"Past participle of 'iessen' (to eat)?", a:"giess" },
+  { cat:"Perfekt (past)", q:"Past participle of 'drénken' (to drink)?", a:"gedronk" },
+  { cat:"Perfekt (past)", q:"Past participle of 'fléien' (to fly)?", a:"geflunn" },
+  { cat:"Perfekt (past)", q:"Past participle of 'maachen' (to do/make)?", a:"gemaach" },
+  { cat:"Perfekt (past)", q:"Translate: Yesterday I worked.", a:"Gëschter hunn ech geschafft." },
+  { cat:"Perfekt (past)", q:"Translate: I ate pizza.", a:"Ech hunn Pizza giess." },
+
+  // hunn/sinn
+  { cat:"hunn/sinn", q:"Helper verb: Ech ___ geschafft. (hunn/sinn?)", a:"hunn (action → hunn)" },
+  { cat:"hunn/sinn", q:"Helper verb: Ech ___ an Indien geflunn.", a:"sinn (movement → sinn)" },
+  { cat:"hunn/sinn", q:"Helper verb: Mir ___ an de Restaurant gaangen.", a:"sinn (goen = movement → sinn)" },
+  { cat:"hunn/sinn", q:"Helper verb: Ech ___ e Film gekuckt.", a:"hunn (action → hunn)" },
+  { cat:"hunn/sinn", q:"Helper verb: Si ___ zu Seattle bliwwen.", a:"sinn (bleiwen → sinn)" },
+
+  // Cases / Dativ
+  { cat:"Cases / Dativ", q:"'with my wife' (mat + Dativ)?", a:"mat menger Fra" },
+  { cat:"Cases / Dativ", q:"'by car' — contraction of mat + dem?", a:"mam Auto" },
+  { cat:"Cases / Dativ", q:"'at the restaurant' — contraction of an + dem?", a:"am Restaurant" },
+  { cat:"Cases / Dativ", q:"Direction or location? 'Ech ginn heem.'", a:"direction → Akkusativ" },
+  { cat:"Cases / Dativ", q:"Direction or location? 'Ech sinn doheem.'", a:"location → Dativ" },
+  { cat:"Cases / Dativ", q:"'I go to the supermarket' (movement).", a:"Ech ginn an de Supermarché. (Akkusativ)" },
+  { cat:"Cases / Dativ", q:"'I am at the supermarket' (staying).", a:"Ech sinn am Supermarché. (Dativ)" },
+  { cat:"Cases / Dativ", q:"Which question word signals Dativ (indirect object)?", a:"Wiem? (to whom)" },
+
+  // Sentence structure
+  { cat:"Sentence structure", q:"Fix word order: 'Gëschter ech hunn geschafft.'", a:"Gëschter hunn ech geschafft. (verb = position 2)" },
+  { cat:"Sentence structure", q:"Fix word order: 'Muer ech ginn akafen.'", a:"Muer ginn ech akafen." },
+  { cat:"Sentence structure", q:"Finish clause: 'Ech sinn frou, well et Weekend ___.'", a:"ass (verb to the end)" },
+
+  // Future / modal
+  { cat:"Future / modal", q:"Translate: I'm going to work tomorrow.", a:"Ech ginn muer schaffen." },
+  { cat:"Future / modal", q:"Translate: I would like to travel more.", a:"Ech géif gär méi reesen." },
+  { cat:"Future / modal", q:"Translate: I must work this weekend.", a:"Ech muss dëse Weekend schaffen." },
+  { cat:"Future / modal", q:"Translate: I can play an instrument.", a:"Ech kann en Instrument spillen." },
+
+  // Articles / gender
+  { cat:"Articles / gender", q:"'the car' (masculine)?", a:"den Auto" },
+  { cat:"Articles / gender", q:"'a woman' (feminine)?", a:"eng Fra" },
+  { cat:"Articles / gender", q:"'the child' (neutral)?", a:"d'Kand" },
+  { cat:"Articles / gender", q:"'my' + wife (feminine)?", a:"meng Fra" },
+
+  // Negation
+  { cat:"Negation", q:"Translate: I don't work.", a:"Ech schaffen net." },
+  { cat:"Negation", q:"Translate: I have no car.", a:"Ech hunn keen Auto." },
+  { cat:"Negation", q:"Translate: I have no siblings.", a:"Ech hunn keng Geschwëster." },
+
+  // Comparative
+  { cat:"Comparative", q:"Comparative + superlative of 'gutt' (good)?", a:"besser / am beschten" },
+  { cat:"Comparative", q:"Comparative + superlative of 'gär'?", a:"léiwer / am léifsten" },
+  { cat:"Comparative", q:"Translate: Marc is bigger than Jean.", a:"De Marc ass méi grouss wéi de Jean." }
+];
+
+function buildPractice() {
+  const cat = document.getElementById('catFilter').value;
+  const list = cat === 'All' ? PRACTICE : PRACTICE.filter(x => x.cat === cat);
+  const container = document.getElementById('practice-container');
+  let html = '';
+  list.forEach((item, i) => {
+    html += `
+    <div style="background:white;padding:14px;margin:10px 0;border-radius:8px;border:1px solid #ddd;">
+      <p style="margin-bottom:8px;"><strong>${i+1}.</strong> <span style="font-size:0.78em;background:#8e44ad;color:#fff;padding:1px 7px;border-radius:10px;">${item.cat}</span><br>${item.q}</p>
+      <input type="text" id="pa-${i}" placeholder="Your answer..." style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;margin-bottom:8px;">
+      <button onclick="checkPractice(${i})" style="background:#27ae60;color:white;border:none;padding:6px 15px;border-radius:4px;cursor:pointer;">Check</button>
+      <span id="pr-${i}" style="display:none;padding:8px;border-radius:4px;margin-left:8px;"></span>
+    </div>`;
+  });
+  container.innerHTML = html;
+  container.dataset.count = list.length;
+  window._practiceList = list;
+  document.getElementById('practice-score').textContent = '';
+}
+
+function checkPractice(i) {
+  const r = document.getElementById('pr-' + i);
+  r.style.display = 'inline-block';
+  r.innerHTML = '<strong>Answer:</strong> ' + window._practiceList[i].a;
+  r.style.background = '#eafaf1';
+  r.style.border = '1px solid #27ae60';
+}
+
+function showPracticeScore() {
+  const n = parseInt(document.getElementById('practice-container').dataset.count || '0', 10);
+  let answered = 0;
+  for (let i = 0; i < n; i++) {
+    const el = document.getElementById('pa-' + i);
+    if (el && el.value.trim() !== '') answered++;
+  }
+  document.getElementById('practice-score').textContent = `You attempted ${answered} of ${n} questions. Reveal each answer to self-check!`;
+}
+
+buildPractice();
 </script>
 
 </body>
