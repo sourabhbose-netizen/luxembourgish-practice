@@ -653,72 +653,48 @@ From your class notes: the listening part has about <strong>3 texts</strong>, wi
 <br><span style="font-size:0.85em;color:#777;">Source (exam format): INLL / luxtoday.lu. Content rephrased.</span>
 </div>
 
-<h3>🔊 Real Luxembourgish audio — listen on RTL (links out)</h3>
-<div class="warn">
-These open on RTL's own site/app — the audio belongs to RTL, so listen there (nothing is copied here). Great for training your ear to natural spoken Luxembourgish.
-</div>
-<table>
-<tr><th>Resource</th><th>What it is</th><th>Link</th></tr>
-<tr><td><strong>RTL Radio Lëtzebuerg (live)</strong></td><td>Live radio — news, talk, everyday spoken Luxembourgish</td><td><a href="https://play.rtl.lu/live/radio" target="_blank" rel="noopener">play.rtl.lu/live/radio</a></td></tr>
-<tr><td><strong>RTL Sproochmates</strong></td><td>Short clips explaining Luxembourgish words/expressions (Alain Atten) — clear, slow, ideal for learners</td><td><a href="https://www.rtl.lu/kultur/sproochmates" target="_blank" rel="noopener">rtl.lu/kultur/sproochmates</a></td></tr>
-<tr><td><strong>RTL Play (podcasts / replay)</strong></td><td>News bulletins and podcasts you can replay as often as you like</td><td><a href="https://play.rtl.lu/" target="_blank" rel="noopener">play.rtl.lu</a></td></tr>
-<tr><td><strong>RTL.lu News (Lëtzebuerg)</strong></td><td>Short news videos/audio in Luxembourgish with real-world vocabulary</td><td><a href="https://www.rtl.lu/news" target="_blank" rel="noopener">rtl.lu/news</a></td></tr>
-</table>
-
-<h3>📘 Practice audio with official answer keys (what you already have)</h3>
-<div class="bookref">
-Your <code>A2-Answer-Keys</code> folder has the INLL A2 book answer keys (Kapitel 1-8) and B1 Kapitel 1-3. For each book listening exercise, play the audio from the INLL site, answer, then check against the key. This is the closest match to the real exam.
-</div>
-
-<h3>🧭 How to practise listening (5-step method)</h3>
+<h3>🎧 Interactive listening test — the app reads it aloud</h3>
 <div class="explain">
-<strong>1.</strong> Read all the questions FIRST (you're allowed to). <strong>2.</strong> Play the audio once, listen for the gist. <strong>3.</strong> Play again and mark answers — questions usually follow the storyline in order. <strong>4.</strong> Don't panic on one word you miss; use the surrounding meaning. <strong>5.</strong> Check your answers, then re-listen to the parts you got wrong.
+These are <strong>original</strong> exam-style audio exercises. Click <strong>▶ Play</strong> and your browser reads the Luxembourgish aloud (no internet needed). <strong>Read the questions first</strong>, listen (replay as often as you like), answer, then <strong>Check</strong>. Keep the script hidden until you've answered — reveal it only to verify.
+</div>
+<div class="warn" id="ttsWarn" style="display:none;">
+⚠️ Your browser has no Luxembourgish voice installed, so it will use a German voice (closest available) or you can read the script. The accent won't be perfect, but it's good ear-training for words and numbers.
 </div>
 
-<h3>✍️ Worked examples — exam-style MCQ (read the script, then answer)</h3>
-<p class="explain">These two mini-exercises are written in the Sproochentest MCQ style so you can drill the <em>question format</em>. Read the short script aloud (or have someone read it to you), cover it, and answer. Then reveal the key.</p>
-
-<div class="module open">
-<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
-<span class="mtitle">Exercise A — Um Telefon (making plans)</span><span class="chev">▶</span>
-</div>
-<div class="module-body">
-<details class="selfcheck"><summary>📄 Show the script (read it first)</summary>
-<p style="margin-top:8px;">
-<em>Tclaude: Salut Anne, et ass den Tclaude. Hues du Loscht, e Samschdeg eppes ze maachen?</em><br>
-<em>Anne: Jo gär! Mä net moies, do ginn ech akafen. Nomëttes hunn ech Zäit.</em><br>
-<em>Claude: Perfekt. Mir kéinten an de Kino goen. Et leeft en neie Film um 16 Auer.</em><br>
-<em>Anne: Kino ass eng gutt Iddi. Treffe mer eis virdrun op e Kaffi?</em><br>
-<em>Claude: Jo, um 15 Auer an der Stad. Bis Samschdeg!</em>
-</p>
-</details>
-<p><strong>1. Wéini huet d'Anne Zäit?</strong><br>A. Moies &nbsp; B. Nomëttes &nbsp; C. Owes</p>
-<p><strong>2. Wat maache si zesummen?</strong><br>A. Si ginn akafen &nbsp; B. Si ginn an de Kino &nbsp; C. Si ginn iessen</p>
-<p><strong>3. Wéini treffe si sech op e Kaffi?</strong><br>A. Um 15 Auer &nbsp; B. Um 16 Auer &nbsp; C. Moies</p>
-<details class="selfcheck"><summary>✅ Show answers</summary><p>1 → <strong>B</strong> (nomëttes; moies geet si akafen) · 2 → <strong>B</strong> (an de Kino) · 3 → <strong>A</strong> (um 15 Auer, virum Film um 16 Auer)</p></details>
-</div>
+<div style="margin:10px 0;">
+<label style="font-size:0.9em;color:#555;">Voice speed:
+<select id="ttsRate" style="padding:5px 9px;border:1px solid #ccc;border-radius:5px;margin-left:6px;">
+<option value="0.7">Slow (0.7×)</option>
+<option value="0.85" selected>Normal-slow (0.85×)</option>
+<option value="1">Normal (1×)</option>
+</select>
+</label>
 </div>
 
-<div class="module">
-<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
-<span class="mtitle">Exercise B — Am Supermarché (a short announcement)</span><span class="chev">▶</span>
+<div id="listen-container"></div>
+
+<div style="text-align:center; margin: 20px 0;">
+<button onclick="showListenScore()" style="background:#c0392b;color:white;padding:10px 26px;border:none;border-radius:8px;font-size:1em;cursor:pointer;">Show my listening score</button>
+<p id="listen-score" style="font-size:1.15em;margin-top:12px;font-weight:bold;"></p>
 </div>
-<div class="module-body">
-<details class="selfcheck"><summary>📄 Show the script (read it first)</summary>
-<p style="margin-top:8px;">
-<em>Léif Clienten, mir informéieren Iech: haut gëtt et frëscht Uebst a Geméis am Promotioun. D'Äppel kaschten elo zwee Euro de Kilo. Eise Buttek ass haut bis 20 Auer op. Freideg maache mir eréischt um 8 Auer op. Mir wënschen Iech e schéinen Dag.</em>
-</p>
-</details>
-<p><strong>1. Wat ass haut am Promotioun?</strong><br>A. Fleesch &nbsp; B. Uebst a Geméis &nbsp; C. Brout</p>
-<p><strong>2. Wéi vill kaschten d'Äppel?</strong><br>A. Een Euro de Kilo &nbsp; B. Zwee Euro de Kilo &nbsp; C. Dräi Euro de Kilo</p>
-<p><strong>3. Wéi laang ass de Buttek haut op?</strong><br>A. Bis 18 Auer &nbsp; B. Bis 20 Auer &nbsp; C. Bis 22 Auer</p>
-<p><strong>4. Wéini mécht de Buttek Freideg op?</strong><br>A. Um 8 Auer &nbsp; B. Um 9 Auer &nbsp; C. Dat gëtt net gesot</p>
-<details class="selfcheck"><summary>✅ Show answers</summary><p>1 → <strong>B</strong> (Uebst a Geméis) · 2 → <strong>B</strong> (zwee Euro de Kilo) · 3 → <strong>B</strong> (bis 20 Auer) · 4 → <strong>A</strong> (um 8 Auer)</p></details>
+
+<h3>🧭 How to practise (5-step method)</h3>
+<div class="explain">
+<strong>1.</strong> Read all the questions FIRST (you're allowed to in the exam). <strong>2.</strong> Play once for the gist. <strong>3.</strong> Replay and mark answers — questions usually follow the order of the audio. <strong>4.</strong> Don't freeze on one missed word; use the surrounding meaning. <strong>5.</strong> Check answers, then replay the parts you missed.
 </div>
+
+<h3>🔊 Bonus — real Luxembourgish audio on RTL (opens on rtl.lu)</h3>
+<div class="bookref">
+For natural native audio, these open on RTL's own site (audio © RTL): 
+<a href="https://play.rtl.lu/live/radio" target="_blank" rel="noopener">Live Radio</a> ·
+<a href="https://www.rtl.lu/kultur/sproochmates" target="_blank" rel="noopener">Sproochmates</a> ·
+<a href="https://play.rtl.lu/" target="_blank" rel="noopener">RTL Play</a> ·
+<a href="https://www.rtl.lu/news" target="_blank" rel="noopener">News</a>.
+Also: your <code>A2-Answer-Keys</code> folder has the INLL book answer keys — play a book audio, answer, check against the key (closest match to the real exam).
 </div>
 
 <div class="explain" style="margin-top:14px;">
-<strong>Want more?</strong> Send me a screenshot of any book listening exercise and I'll give you the official answers from your answer keys. For new audio, use the RTL links above and tell me what you hear — I'll help you check.
+<strong>Want more?</strong> Send me a screenshot of any book listening exercise and I'll give you the official answers from your answer keys.
 </div>
 </section>
 
@@ -843,6 +819,155 @@ function showPracticeScore() {
 }
 
 buildPractice();
+
+// ===== INTERACTIVE LISTENING TEST (browser text-to-speech) =====
+// Scripts are ORIGINAL, exam-style. The browser reads them aloud; nothing external is embedded.
+const LISTEN = [
+  {
+    title: "1. Noriichten — Wiederbericht (weather report)",
+    script: "Gudde Moien an häerzlech wëllkomm bei de Wiederberichten. Haut ass et am Norden bewölkt a kill, mat Reen um Nomëtteg. Am Süde bleift et dréchen a mëll, mat Temperaturen ëm d'zwielef Grad. Muer gëtt et méi sonneg am ganze Land. Um Weekend soll et nees reenen. Passt op der Strooss op, well et glat ka ginn.",
+    qs: [
+      { q:"Wéi ass d'Wieder haut am Norden?", opts:["Sonneg a waarm","Bewölkt a kill mat Reen","Glat a kal"], a:1 },
+      { q:"Wéi vill Grad ass et am Süden?", opts:["Ëm zwielef Grad","Ëm zwanzeg Grad","Dat gëtt net gesot"], a:0 },
+      { q:"Wéi gëtt d'Wieder muer?", opts:["Méi sonneg","Méi reenereg","Méi kal"], a:0 },
+      { q:"Wat soll um Weekend geschéien?", opts:["Et soll schneien","Et soll nees reenen","Et bleift dréchen"], a:1 }
+    ]
+  },
+  {
+    title: "2. Um Telefon — Pläng maachen (making plans)",
+    script: "Salut Anne, et ass de Marc. Hues du Loscht, e Samschdeg eppes ze maachen? Jo gär, mä net moies, do ginn ech akafen. Nomëttes hunn ech Zäit. Perfekt, mir kéinten an de Kino goen. Et leeft en neie Film um sechzeng Auer. Gutt Iddi. Treffe mir eis virdrun op e Kaffi? Jo, um fofzeng Auer an der Stad. Bis Samschdeg!",
+    qs: [
+      { q:"Wéini huet d'Anne Zäit?", opts:["Moies","Nomëttes","Owes"], a:1 },
+      { q:"Wat maache si zesummen?", opts:["Si ginn akafen","Si ginn an de Kino","Si ginn schwammen"], a:1 },
+      { q:"Wéini fänkt de Film un?", opts:["Um fofzeng Auer","Um sechzeng Auer","Um siwwenzeng Auer"], a:1 },
+      { q:"Wéini treffe si sech op e Kaffi?", opts:["Um fofzeng Auer","Um sechzeng Auer","Moies"], a:0 }
+    ]
+  },
+  {
+    title: "3. Am Supermarché — Annonce (announcement)",
+    script: "Léif Clienten, mir informéieren Iech: haut gëtt et frëscht Uebst a Geméis am Promotioun. D'Äppel kaschten elo zwee Euro de Kilo. Eise Buttek ass haut bis zwanzeg Auer op. Freideg maache mir eréischt um aacht Auer op. Mir wënschen Iech e schéinen Dag a vill Spaass beim Akafen.",
+    qs: [
+      { q:"Wat ass haut am Promotioun?", opts:["Fleesch","Uebst a Geméis","Brout a Kuch"], a:1 },
+      { q:"Wéi vill kaschten d'Äppel?", opts:["Een Euro de Kilo","Zwee Euro de Kilo","Dräi Euro de Kilo"], a:1 },
+      { q:"Wéi laang ass de Buttek haut op?", opts:["Bis uechtzeng Auer","Bis zwanzeg Auer","Bis zweeanzwanzeg Auer"], a:1 },
+      { q:"Wéini mécht de Buttek Freideg op?", opts:["Um aacht Auer","Um néng Auer","Dat gëtt net gesot"], a:0 }
+    ]
+  },
+  {
+    title: "4. Op der Gare — Reesinformatioun (station announcement)",
+    script: "Opgepasst op der Gare Lëtzebuerg. Den Zuch no Esch-Uelzecht um zéng Auer dräisseg fiert haut vum Quai véier of, net vum Quai zwee. Den Zuch huet ongeféier zéng Minutte Verspéidung. Mir bieden eis Reesend, op d'Affichë z'oppassen. Villmools Merci a gutt Rees.",
+    qs: [
+      { q:"Wouhin fiert den Zuch?", opts:["Op Ettelbréck","Op Esch-Uelzecht","Op Dikrech"], a:1 },
+      { q:"Vun wéi engem Quai fiert den Zuch haut of?", opts:["Vum Quai zwee","Vum Quai véier","Vum Quai zéng"], a:1 },
+      { q:"Wéi vill Verspéidung huet den Zuch?", opts:["Keng Verspéidung","Ongeféier zéng Minutten","Eng hallef Stonn"], a:1 }
+    ]
+  },
+  {
+    title: "5. Interview — e Weekend (short interview)",
+    script: "Wat hutt Dir um Weekend gemaach? Also, e Samschdeg sinn ech mat menger Famill an de Bësch spazéiere gaangen. D'Wieder war schéin. E Sonndeg hu mir doheem bliwwen an ech hu gekacht. Ech hunn en indescht Iessen gemaach, well meng Famill dat gär huet. Owes hu mir e Film gekuckt. Et war e rouege Weekend.",
+    qs: [
+      { q:"Wat huet d'Persoun e Samschdeg gemaach?", opts:["Si ass akafe gaangen","Si ass spazéiere gaangen","Si huet geschafft"], a:1 },
+      { q:"Wat huet d'Persoun e Sonndeg gekacht?", opts:["Italienescht Iessen","Indescht Iessen","Chinesescht Iessen"], a:1 },
+      { q:"Firwat huet si dat gekacht?", opts:["Well d'Famill dat gär huet","Well et séier geet","Well et bëlleg ass"], a:0 },
+      { q:"Wéi war de Weekend?", opts:["Stresseg","Roueg","Laangweileg"], a:1 }
+    ]
+  }
+];
+
+// Pick a Luxembourgish voice if present, else German, else default
+function pickVoice() {
+  const voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+  if (!voices.length) return null;
+  let v = voices.find(x => /lb|ltz|luxemb/i.test(x.lang));
+  if (!v) v = voices.find(x => /^de/i.test(x.lang)); // German fallback
+  return v || voices[0];
+}
+
+function speakScript(i) {
+  if (!('speechSynthesis' in window)) { alert('Your browser does not support speech. Please read the script instead.'); return; }
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(LISTEN[i].script);
+  const v = pickVoice();
+  if (v) { u.voice = v; u.lang = v.lang; } else { u.lang = 'de-DE'; }
+  u.rate = parseFloat(document.getElementById('ttsRate').value || '0.85');
+  u.pitch = 1;
+  window.speechSynthesis.speak(u);
+}
+function stopSpeak(){ if ('speechSynthesis' in window) window.speechSynthesis.cancel(); }
+
+function buildListening() {
+  const c = document.getElementById('listen-container');
+  let html = '';
+  LISTEN.forEach((ex, ei) => {
+    const qHtml = ex.qs.map((qq, qi) => {
+      const opts = qq.opts.map((o, oi) =>
+        `<label style="display:block;margin:3px 0;cursor:pointer;"><input type="radio" name="l-${ei}-${qi}" value="${oi}"> ${String.fromCharCode(65+oi)}. ${o}</label>`
+      ).join('');
+      return `<div style="margin:10px 0;"><p style="font-weight:600;">${qi+1}. ${qq.q}</p>${opts}<span id="lr-${ei}-${qi}" style="display:none;font-size:0.9em;padding:4px 8px;border-radius:4px;"></span></div>`;
+    }).join('');
+    html += `
+    <div class="module open" style="margin:12px 0;">
+      <div class="module-head" style="cursor:default;">
+        <span class="mtitle">${ex.title}</span>
+      </div>
+      <div class="module-body" style="display:block;">
+        <div style="margin:4px 0 10px;">
+          <button onclick="speakScript(${ei})" style="background:#2980b9;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:0.95em;">▶ Play</button>
+          <button onclick="speakScript(${ei})" style="background:#7f8c8d;color:#fff;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:0.95em;">↻ Replay</button>
+          <button onclick="stopSpeak()" style="background:#c0392b;color:#fff;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:0.95em;">■ Stop</button>
+        </div>
+        ${qHtml}
+        <div style="margin-top:10px;">
+          <button onclick="checkListening(${ei})" style="background:#27ae60;color:#fff;border:none;padding:7px 16px;border-radius:5px;cursor:pointer;">Check answers</button>
+        </div>
+        <details class="selfcheck" style="margin-top:10px;"><summary>📄 Show script (only after you answer)</summary><p style="margin-top:8px;"><em>${ex.script}</em></p></details>
+      </div>
+    </div>`;
+  });
+  c.innerHTML = html;
+  // warn if no LB/DE voice
+  setTimeout(() => {
+    const v = pickVoice();
+    if (!v || !/lb|ltz|luxemb/i.test(v.lang)) {
+      const w = document.getElementById('ttsWarn'); if (w) w.style.display = 'block';
+    }
+  }, 300);
+}
+
+function checkListening(ei) {
+  const ex = LISTEN[ei];
+  ex.qs.forEach((qq, qi) => {
+    const sel = document.querySelector(`input[name="l-${ei}-${qi}"]:checked`);
+    const r = document.getElementById(`lr-${ei}-${qi}`);
+    r.style.display = 'inline-block';
+    const correctLetter = String.fromCharCode(65 + qq.a);
+    if (sel && parseInt(sel.value, 10) === qq.a) {
+      r.textContent = '✓ Richteg!';
+      r.style.background = '#eafaf1'; r.style.border = '1px solid #27ae60';
+    } else {
+      r.textContent = '✗ Richteg Äntwert: ' + correctLetter + '. ' + qq.opts[qq.a];
+      r.style.background = '#fdedec'; r.style.border = '1px solid #c0392b';
+    }
+  });
+}
+
+function showListenScore() {
+  let correct = 0, total = 0;
+  LISTEN.forEach((ex, ei) => {
+    ex.qs.forEach((qq, qi) => {
+      total++;
+      const sel = document.querySelector(`input[name="l-${ei}-${qi}"]:checked`);
+      if (sel && parseInt(sel.value, 10) === qq.a) correct++;
+    });
+  });
+  document.getElementById('listen-score').textContent = `Listening score: ${correct} / ${total} correct.`;
+}
+
+// voices load async in some browsers
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.onvoiceschanged = function(){ /* voices ready */ };
+}
+buildListening();
 </script>
 
 </body>
