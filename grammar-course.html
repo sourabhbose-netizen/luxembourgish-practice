@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luxembourgish Grammar Course A1 → A2 (Sproochentest Prep)</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f7fa; color: #2c3e50; line-height: 1.6; padding: 20px; }
+.container { max-width: 960px; margin: 0 auto; }
+h1 { color: #c0392b; text-align: center; margin-bottom: 6px; font-size: 2em; }
+.subtitle { text-align: center; color: #7f8c8d; margin-bottom: 24px; }
+h2 { color: #2980b9; margin: 10px 0 15px; padding: 10px 15px; background: #eaf2f8; border-radius: 8px; }
+h3 { color: #27ae60; margin: 20px 0 10px; }
+h4 { color: #8e44ad; margin: 16px 0 8px; }
+
+.nav { position: sticky; top: 0; background: #2c3e50; padding: 10px; border-radius: 8px; margin-bottom: 20px; z-index: 100; display:flex; flex-wrap:wrap; gap:4px 10px; }
+.nav a { color: #ecf0f1; text-decoration: none; font-size: 0.85em; }
+.nav a:hover { color: #f39c12; }
+
+.topbar { text-align:center; margin-bottom: 18px; }
+.topbar a { display:inline-block; background:#2980b9; color:#fff; text-decoration:none; padding:7px 14px; border-radius:6px; margin:3px; font-size:0.85em; }
+.topbar a:hover { background:#1f6391; }
+
+.explain { background: #fef9e7; border-left: 4px solid #f39c12; padding: 12px 15px; margin: 10px 0; border-radius: 4px; font-size: 0.95em; }
+.explain strong { color: #e67e22; }
+.example { background: #eafaf1; border-left: 4px solid #27ae60; padding: 10px 15px; margin: 10px 0; border-radius: 4px; }
+.warn { background: #fdedec; border-left: 4px solid #c0392b; padding: 10px 15px; margin: 10px 0; border-radius: 4px; }
+.warn strong { color: #c0392b; }
+.exam-flag { display:inline-block; background:#c0392b; color:#fff; font-size:0.7em; padding:2px 7px; border-radius:10px; vertical-align:middle; margin-left:6px; }
+
+table { width: 100%; border-collapse: collapse; margin: 10px 0 20px; font-size:0.93em; }
+th, td { border: 1px solid #ddd; padding: 7px 10px; text-align: left; vertical-align: top; }
+th { background: #2980b9; color: white; }
+tr:nth-child(even) { background: #f2f2f2; }
+.lb { color: #c0392b; font-weight: bold; }
+
+/* Collapsible module */
+.module { background:#fff; border:1px solid #dfe6ec; border-radius:8px; margin:12px 0; overflow:hidden; }
+.module-head { cursor:pointer; padding:14px 16px; display:flex; justify-content:space-between; align-items:center; background:#f8fafc; }
+.module-head:hover { background:#eef3f8; }
+.module-head .mtitle { font-weight:600; color:#2c3e50; }
+.module-head .mlevel { font-size:0.7em; padding:2px 8px; border-radius:10px; color:#fff; margin-left:8px; }
+.lvl-a1 { background:#27ae60; }
+.lvl-a2 { background:#8e44ad; }
+.module-body { display:none; padding:4px 16px 16px; }
+.module.open .module-body { display:block; }
+.module .chev { transition:transform .2s; color:#7f8c8d; }
+.module.open .chev { transform:rotate(90deg); }
+
+.bookref { font-size:0.82em; color:#555; background:#eef2f7; border:1px dashed #b0bec5; padding:6px 10px; border-radius:5px; margin:8px 0; }
+.bookref strong { color:#2980b9; }
+
+/* Study plan */
+.weekcard { background:#fff; border:1px solid #dfe6ec; border-left:5px solid #2980b9; border-radius:6px; padding:12px 15px; margin:10px 0; }
+.weekcard.exam { border-left-color:#c0392b; background:#fdf2f2; }
+.weekcard .wk { font-weight:700; color:#c0392b; }
+.weekcard .focus { color:#2980b9; font-weight:600; }
+.weekcard ul { margin:6px 0 0 20px; font-size:0.92em; }
+
+.selfcheck { background:#f4ecfa; border-left:4px solid #8e44ad; padding:10px 15px; margin:10px 0; border-radius:4px; }
+.selfcheck summary { cursor:pointer; font-weight:600; color:#8e44ad; }
+.selfcheck p { margin-top:8px; }
+
+.legend { text-align:center; font-size:0.82em; color:#7f8c8d; margin-bottom:14px; }
+.legend span { display:inline-block; padding:2px 8px; border-radius:10px; color:#fff; margin:0 4px; }
+
+footer { text-align:center; color:#95a5a6; font-size:0.8em; margin:30px 0 10px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Luxembourgish Grammar Course</h1>
+<p class="subtitle">A1 → A2 progression for the Sproochentest · self-study hub</p>
+
+<div class="topbar">
+<a href="a1-basics.html">← A1 Basics page</a>
+<a href="themes-reader.html">Theme answers</a>
+<a href="#plan">Study plan</a>
+<a href="#a1">A1 grammar</a>
+<a href="#a2">A2 grammar</a>
+<a href="#vocab">Vocabulary</a>
+</div>
+
+<div class="legend">
+Level tags: <span class="lvl-a1">A1</span> foundation &nbsp; <span class="lvl-a2">A2</span> builds on A1 &nbsp;
+<span style="background:#c0392b;">EXAM</span> high-priority for 12 Jan
+</div>
+
+<nav class="nav">
+<a href="#plan">📅 Plan</a>
+<a href="#a1">🟢 A1</a>
+<a href="#a2">🟣 A2</a>
+<a href="#cases">🎯 Cases</a>
+<a href="#tenses">⏰ Tenses</a>
+<a href="#adj">🎨 Adjectives</a>
+<a href="#vocab">📚 Vocabulary</a>
+<a href="#how">❓ How to use</a>
+</nav>
+
+<!-- HOW TO USE -->
+<section id="how">
+<div class="explain">
+<strong>How to use this page.</strong> Work <strong>top to bottom</strong>: the study plan tells you what to focus on each week counting back from the exam. Then open the grammar modules (click to expand). Each module has: 📘 plain-English explanation, 🇱🇺 the Luxembourgish rule with a table, examples using your own life (Amazon, Steinsel, flying, family), a 📗 book reference, and a ✅ self-check you can reveal.<br><br>
+Pair it with your books: the <strong>A1 book</strong> (Lëtzebuergesch fir all Dag) and the <strong>A2 book (2017)</strong>. Answer keys for the A2 book are in your <code>A2-Answer-Keys</code> folder.
+</div>
+</section>
+
+<!-- ============ STUDY PLAN ============ -->
+<section id="plan">
+<h2>📅 Study Plan — working backwards from 12 January 2027</h2>
+<div class="explain">
+Your exam is <strong>Monday 12 January 2027</strong>. Below is a backwards plan. Each week has a grammar focus, the themes to rehearse, and which book chapters to read. Adjust to your pace — the last 2 weeks are pure review + speaking out loud.
+</div>
+
+<div class="weekcard exam">
+<div class="wk">🎯 EXAM — Mon 12 Jan 2027</div>
+Oral Sproochentest: picture description + theme conversation + (listening part is separate). Speak in full sentences, use <strong>Dir</strong> (formal), aim for 3+ sentences per answer.
+</div>
+
+<div class="weekcard">
+<div class="wk">Week of 5 Jan (exam week)</div>
+<div class="focus">Focus: speaking fluency + confidence, light review only</div>
+<ul>
+<li>Speak each theme out loud for 4 minutes; no new grammar.</li>
+<li>Re-read picture-description framework (Op dësem Bild / An der Mëtt / Lénks / Riets / Am Hannergrond / D'Wieder).</li>
+<li>Rehearse small talk: weekend, yesterday, this week.</li>
+</ul>
+</div>
+
+<div class="weekcard">
+<div class="wk">Week of 29 Dec</div>
+<div class="focus">Focus: Cases review — Nominativ / Akkusativ / Dativ <span class="exam-flag">EXAM</span></div>
+<ul>
+<li>Master <em>heem</em> (direction → Akkusativ) vs <em>doheem</em> (location → Dativ).</li>
+<li>Drill Dativ prepositions: mat, no, bei, vun, zu, aus, zënter.</li>
+<li>Be ready to <strong>explain the Dativ</strong> — Miranda said this is asked.</li>
+<li>Book: A2 grammar PDF (cases pages).</li>
+</ul>
+</div>
+
+<div class="weekcard">
+<div class="wk">Week of 22 Dec</div>
+<div class="focus">Focus: Tenses — Perfekt (past) + future + modals</div>
+<ul>
+<li>Perfekt: hunn/sinn + past participle at the END.</li>
+<li>Learn the irregular past participles table (below).</li>
+<li>Future with <em>ginn</em>; conditional <em>géif</em>; <em>wäert</em> = will.</li>
+<li>Book: A2 book chapters with past-tense texts.</li>
+</ul>
+</div>
+
+<div class="weekcard">
+<div class="wk">Week of 15 Dec</div>
+<div class="focus">Focus: Adjectives + comparatives + subordinate clauses</div>
+<ul>
+<li>Adjective endings (male +e/en, female none, neutral +t, plural none).</li>
+<li>Comparatives: méi … wéi / am …sten (gutt→besser→am beschten).</li>
+<li>Clauses with <em>well, dass, wann</em> → verb to the END.</li>
+<li>Book: A2 book, comparatif/superlatif page.</li>
+</ul>
+</div>
+
+<div class="weekcard">
+<div class="wk">Weeks of 1 + 8 Dec</div>
+<div class="focus">Focus: Theme mastery (all 25 theme files) + vocabulary</div>
+<ul>
+<li>Rehearse 3-4 themes per day, 3 sentences per answer.</li>
+<li>Build vocabulary by theme (see Vocabulary section).</li>
+<li>Do A2 book exercises; self-check with the answer keys.</li>
+</ul>
+</div>
+
+<div class="weekcard">
+<div class="wk">Weeks of 17 + 24 Nov</div>
+<div class="focus">Focus: A1 foundations solid — sentence structure, articles, present tense</div>
+<ul>
+<li>V2 rule (verb always position 2) + inversion.</li>
+<li>Gender &amp; articles (de/den, d', en/eng); negation (net / keen).</li>
+<li>Conjugate sinn, hunn, and regular verbs without thinking.</li>
+<li>Book: A1 book Kapitel 1-3; A1 answer keys.</li>
+</ul>
+</div>
+
+<div class="weekcard">
+<div class="wk">Now → mid-Nov</div>
+<div class="focus">Focus: Listening practice + fill grammar gaps</div>
+<ul>
+<li>Do listening exercises (A1/A2/B1 audios); use answer keys to check.</li>
+<li>Identify your weak grammar spots and open those modules below.</li>
+</ul>
+</div>
+</section>
+
+<!-- ============ A1 GRAMMAR ============ -->
+<section id="a1">
+<h2>🟢 A1 Grammar — the foundations</h2>
+<p class="explain">These are the building blocks. If any of these feel shaky, start here before moving to A2.</p>
+
+<div class="module">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">1. Personal pronouns (I, you, he…) <span class="mlevel lvl-a1">A1</span></span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<p>📘 A pronoun replaces a name: instead of "Sourabh works," you say "<strong>I</strong> work."</p>
+<table>
+<tr><th>Lëtzebuergesch</th><th>English</th><th>Use</th></tr>
+<tr><td class="lb">ech</td><td>I</td><td>yourself</td></tr>
+<tr><td class="lb">du</td><td>you (informal)</td><td>friends, family, kids</td></tr>
+<tr><td class="lb">hien</td><td>he</td><td>a man</td></tr>
+<tr><td class="lb">si</td><td>she</td><td>a woman</td></tr>
+<tr><td class="lb">hatt / et</td><td>it</td><td>things, a child</td></tr>
+<tr><td class="lb">mir</td><td>we</td><td>you + others</td></tr>
+<tr><td class="lb">Dir</td><td>you (formal/plural)</td><td><strong>use this in the exam!</strong></td></tr>
+<tr><td class="lb">si</td><td>they</td><td>a group</td></tr>
+</table>
+<div class="warn"><strong>Exam tip:</strong> always answer with <strong>Dir</strong> (formal "you"), never <em>du</em>.</div>
+<div class="bookref">📗 <strong>A1 book:</strong> Kapitel 1 (introductions). See also a1-basics.html §1.</div>
+<details class="selfcheck"><summary>✅ Self-check</summary><p>Say these: I live in Steinsel · He works · We are a family of three. →<br><em>Ech wunnen zu Steinsel · Hien schafft · Mir sinn eng Famill vun dräi.</em></p></details>
+</div>
+</div>
+
+<div class="module">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">2. SINN (to be) &amp; HUNN (to have) — learn by heart <span class="mlevel lvl-a1">A1</span></span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<p>📘 These two irregular verbs are everywhere — and they are the helper verbs for the past tense. Memorize both.</p>
+<h4>SINN = to be</h4>
+<table>
+<tr><th>Pronoun</th><th>Form</th><th>English</th></tr>
+<tr><td>ech</td><td class="lb">sinn</td><td>I am</td></tr>
+<tr><td>du</td><td class="lb">bass</td><td>you are</td></tr>
+<tr><td>hien/si/et</td><td class="lb">ass</td><td>he/she/it is</td></tr>
+<tr><td>mir</td><td class="lb">sinn</td><td>we are</td></tr>
+<tr><td>Dir</td><td class="lb">sidd</td><td>you are</td></tr>
+<tr><td>si</td><td class="lb">sinn</td><td>they are</td></tr>
+</table>
+<h4>HUNN = to have</h4>
+<table>
+<tr><th>Pronoun</th><th>Form</th><th>English</th></tr>
+<tr><td>ech</td><td class="lb">hunn</td><td>I have</td></tr>
+<tr><td>du</td><td class="lb">hues</td><td>you have</td></tr>
+<tr><td>hien/si/et</td><td class="lb">huet</td><td>he/she/it has</td></tr>
+<tr><td>mir</td><td class="lb">hunn</td><td>we have</td></tr>
+<tr><td>Dir</td><td class="lb">hutt</td><td>you have</td></tr>
+<tr><td>si</td><td class="lb">hunn</td><td>they have</td></tr>
+</table>
+<div class="example">Ech <strong>sinn</strong> Informatiker. · Ech <strong>hunn</strong> eng Duechter.</div>
+<div class="bookref">📗 <strong>A1 book:</strong> Kapitel 1. a1-basics.html §2.</div>
+<details class="selfcheck"><summary>✅ Self-check</summary><p>Fill: Ech ___ frou · Mir ___ eng Famill · Dir ___ Loscht? → <em>sinn · sinn · hutt</em></p></details>
+</div>
+</div>
+
+<div class="module">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">3. Regular verbs — present tense pattern <span class="mlevel lvl-a1">A1</span></span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<p>📘 Take the infinitive (ends in <strong>-en</strong>), drop <em>-en</em> to get the root, then add endings.</p>
+<div class="explain">Endings: <code>ech -en · du -s · hien/si -t · mir -en · Dir -t · si -en</code></div>
+<table>
+<tr><th>Pronoun</th><th>schaffen (work)</th><th>wunnen (live)</th><th>kachen (cook)</th></tr>
+<tr><td>ech</td><td class="lb">schaffen</td><td class="lb">wunnen</td><td class="lb">kachen</td></tr>
+<tr><td>du</td><td class="lb">schaffs</td><td class="lb">wunns</td><td class="lb">kachs</td></tr>
+<tr><td>hien/si</td><td class="lb">schafft</td><td class="lb">wunnt</td><td class="lb">kacht</td></tr>
+<tr><td>mir</td><td class="lb">schaffen</td><td class="lb">wunnen</td><td class="lb">kachen</td></tr>
+<tr><td>Dir</td><td class="lb">schafft</td><td class="lb">wunnt</td><td class="lb">kacht</td></tr>
+<tr><td>si</td><td class="lb">schaffen</td><td class="lb">wunnen</td><td class="lb">kachen</td></tr>
+</table>
+<div class="example">Ech <strong>schaffen</strong> bei Amazon. · Ech <strong>wunnen</strong> zu Steinsel. · Ech <strong>kachen</strong> gär indescht Iessen.</div>
+<div class="bookref">📗 <strong>A1 book:</strong> Kapitel 1-2 (verbs). a1-basics.html §2.</div>
+</div>
+</div>
+
+<div class="module">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">4. Gender &amp; articles (de/den, d', en/eng) <span class="mlevel lvl-a1">A1</span></span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<p>📘 Every noun has a gender: masculine, feminine, or neutral. The article ("the", "a") changes with it. You mostly have to <strong>memorize the gender with each noun</strong>.</p>
+<h4>"the" (definite)</h4>
+<table>
+<tr><th>Male</th><th>Female</th><th>Neutral</th><th>Plural</th></tr>
+<tr><td class="lb">de / den</td><td class="lb">d'</td><td class="lb">d'</td><td class="lb">d'</td></tr>
+<tr><td>den Auto</td><td>d'Fra</td><td>d'Haus</td><td>d'Kanner</td></tr>
+</table>
+<h4>"a / an" (indefinite)</h4>
+<table>
+<tr><th>Male</th><th>Female</th><th>Neutral</th><th>Plural</th></tr>
+<tr><td class="lb">e / en</td><td class="lb">eng</td><td class="lb">e / en</td><td>— (none)</td></tr>
+<tr><td>en Auto</td><td>eng Fra</td><td>en Haus</td><td>Kanner</td></tr>
+</table>
+<div class="explain"><strong>de vs den / e vs en:</strong> use the <em>-n</em> form before d, n, t, z, h, or a vowel (the "Eifeler Regel"). Otherwise drop the n.</div>
+<div class="bookref">📗 <strong>A1 book:</strong> Kapitel 2 (articles, gender). a1-basics.html §7.</div>
+<details class="selfcheck"><summary>✅ Self-check</summary><p>the car · a woman · the child → <em>den Auto · eng Fra · d'Kand</em></p></details>
+</div>
+</div>
+
+<div class="module">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">5. Sentence structure — the V2 rule <span class="mlevel lvl-a1">A1</span> <span class="exam-flag">EXAM</span></span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<p>📘 The conjugated verb is <strong>always in position 2</strong> of a main sentence. Always.</p>
+<table>
+<tr><th>Pos 1</th><th>Pos 2 (VERB)</th><th>Rest</th></tr>
+<tr><td>Ech</td><td class="lb">schaffen</td><td>bei Amazon.</td></tr>
+<tr><td>Gëschter</td><td class="lb">hunn</td><td>ech geschafft. (subject moves to pos 3!)</td></tr>
+<tr><td>Am Weekend</td><td class="lb">ginn</td><td>mir spazéieren.</td></tr>
+</table>
+<div class="explain"><strong>Inversion:</strong> if you start with a time/place word, the verb stays in position 2, so the subject jumps behind it.</div>
+<div class="warn"><strong>Common mistake:</strong> "Gëschter ech hunn geschafft" ✗ → "Gëschter <strong>hunn ech</strong> geschafft" ✓</div>
+<div class="bookref">📗 a1-basics.html §3.</div>
+<details class="selfcheck"><summary>✅ Self-check</summary><p>Reorder: "Muer ech ginn akafen." → <em>Muer ginn ech akafen.</em></p></details>
+</div>
+</div>
+
+<div class="module">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">6. Negation (net, keen, ni, näischt) <span class="mlevel lvl-a1">A1</span></span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<table>
+<tr><th>Word</th><th>Meaning</th><th>Example</th></tr>
+<tr><td class="lb">net</td><td>not</td><td>Ech schaffen <strong>net</strong>.</td></tr>
+<tr><td class="lb">net (past)</td><td>before the participle</td><td>Ech hunn <strong>net</strong> geschafft.</td></tr>
+<tr><td class="lb">keen</td><td>no (male noun)</td><td>Ech hunn <strong>keen</strong> Auto.</td></tr>
+<tr><td class="lb">keng</td><td>no (fem/plural)</td><td>Ech hunn <strong>keng</strong> Geschwëster.</td></tr>
+<tr><td class="lb">ni</td><td>never</td><td>Ech ginn <strong>ni</strong> an de Casino.</td></tr>
+<tr><td class="lb">näischt</td><td>nothing</td><td>Ech hunn <strong>näischt</strong> gemaach.</td></tr>
+</table>
+<div class="bookref">📗 a1-basics.html §6.</div>
+</div>
+</div>
+
+<div class="module">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">7. Time words &amp; question words <span class="mlevel lvl-a1">A1</span></span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<h4>Time words</h4>
+<table>
+<tr><td class="lb">haut</td><td>today</td><td class="lb">gëschter</td><td>yesterday</td></tr>
+<tr><td class="lb">muer</td><td>tomorrow</td><td class="lb">de Weekend</td><td>the weekend</td></tr>
+<tr><td class="lb">moies</td><td>in the morning</td><td class="lb">owes</td><td>in the evening</td></tr>
+<tr><td class="lb">ëmmer</td><td>always</td><td class="lb">dacks</td><td>often</td></tr>
+<tr><td class="lb">heiansdo</td><td>sometimes</td><td class="lb">ni</td><td>never</td></tr>
+</table>
+<h4>Question words (learn these — they open every exam question)</h4>
+<table>
+<tr><td class="lb">Wien?</td><td>Who? (subject)</td><td class="lb">Wiem?</td><td>To whom? (Dativ)</td></tr>
+<tr><td class="lb">Wat?</td><td>What?</td><td class="lb">Wou?</td><td>Where?</td></tr>
+<tr><td class="lb">Wéini?</td><td>When?</td><td class="lb">Wéi?</td><td>How?</td></tr>
+<tr><td class="lb">Firwat?</td><td>Why?</td><td class="lb">Wéi vill?</td><td>How much/many?</td></tr>
+<tr><td class="lb">Wéi eng?</td><td>Which?</td><td class="lb">Mat wiem?</td><td>With whom?</td></tr>
+</table>
+<div class="bookref">📗 a1-basics.html §9.</div>
+</div>
+</div>
+</section>
+
+<!-- ============ A2 GRAMMAR ============ -->
+<section id="a2">
+<h2>🟣 A2 Grammar — graduating up</h2>
+<p class="explain">These build on the A1 foundations. The items flagged <span class="exam-flag">EXAM</span> are the ones Miranda highlighted for the Sproochentest.</p>
+
+<div id="tenses"></div>
+<div class="module">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">8. Perfekt — the past tense <span class="mlevel lvl-a2">A2</span> <span class="exam-flag">EXAM</span></span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<p>📘 The main way to talk about the past. Structure: <strong>Subject + hunn/sinn + (complements) + past participle at the END</strong>.</p>
+<div class="explain"><strong>Which helper?</strong> <strong>sinn</strong> for movement verbs (go, come, fly, drive, stay); <strong>hunn</strong> for everything else.</div>
+<table>
+<tr><th>Infinitive</th><th>Participle</th><th>Sentence</th></tr>
+<tr><td>schaffen</td><td class="lb">geschafft</td><td>Ech hunn geschafft.</td></tr>
+<tr><td>kachen</td><td class="lb">gekacht</td><td>Ech hunn gekacht.</td></tr>
+<tr><td>goen</td><td class="lb">gaangen</td><td>Ech <strong>sinn</strong> heem gaangen.</td></tr>
+<tr><td>fléien</td><td class="lb">geflunn</td><td>Ech <strong>sinn</strong> geflunn.</td></tr>
+</table>
+<div class="example">Ech <strong>hunn</strong> gëschter am Büro <strong>geschafft</strong>. · Um Weekend <strong>si</strong> mir an de Bësch <strong>gaangen</strong>.</div>
+<div class="warn"><strong>Regular participle:</strong> ge + root + t (schaffen → geschafft). Irregular ones: learn by heart (table in Vocabulary).</div>
+<div class="bookref">📗 <strong>A2 book</strong> + grammar PDF. a1-basics.html §4. Your file: Homework-Class-38-39.md.</div>
+<details class="selfcheck"><summary>✅ Self-check</summary><p>Say: Yesterday I worked · We flew to India · I ate pizza → <em>Gëschter hunn ech geschafft · Mir sinn an Indien geflunn · Ech hunn Pizza giess.</em></p></details>
+</div>
+</div>
+
+<div class="module">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">9. Future, conditional &amp; "will" <span class="mlevel lvl-a2">A2</span></span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<table>
+<tr><th>Form</th><th>Meaning</th><th>Example</th></tr>
+<tr><td class="lb">ginn + infinitive</td><td>going to (future)</td><td>Ech <strong>ginn</strong> muer <strong>schaffen</strong>.</td></tr>
+<tr><td class="lb">wäert + infinitive</td><td>will</td><td>Ech <strong>wäert</strong> just studéieren.</td></tr>
+<tr><td class="lb">géif + infinitive</td><td>would (conditional)</td><td>Ech <strong>géif</strong> gär an d'Stad goen.</td></tr>
+</table>
+<div class="example">Ech <strong>ginn</strong> dëse Weekend akafen. · Ech <strong>géif</strong> gär méi reesen. · Ech <strong>wäert</strong> méi Sport maachen.</div>
+<div class="bookref">📗 A2 book (future/conditional). a1-basics.html §5.</div>
+</div>
+</div>
+
+<div class="module">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">10. Modal verbs (can, must, want, may) <span class="mlevel lvl-a2">A2</span></span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<p>📘 Modal + a second verb in the <strong>infinitive at the END</strong> of the sentence.</p>
+<table>
+<tr><th>Modal</th><th>ech form</th><th>Example</th></tr>
+<tr><td class="lb">kënnen (can)</td><td>ech kann</td><td>Ech <strong>kann</strong> Lëtzebuergesch <strong>schwätzen</strong>.</td></tr>
+<tr><td class="lb">mussen (must)</td><td>ech muss</td><td>Ech <strong>muss</strong> <strong>schaffen</strong>.</td></tr>
+<tr><td class="lb">wëllen (want)</td><td>ech wëll</td><td>Ech <strong>wëll</strong> mech <strong>entspanen</strong>.</td></tr>
+<tr><td class="lb">däerfen (may)</td><td>ech däerf</td><td>Ech <strong>däerf</strong> <strong>goen</strong>.</td></tr>
+<tr><td class="lb">sollen (should)</td><td>ech soll</td><td>Ech <strong>soll</strong> méi <strong>üben</strong>.</td></tr>
+</table>
+<div class="example">Ech <strong>muss</strong> dëse Weekend <strong>schaffen</strong>. · Ech <strong>kann</strong> en Instrument <strong>spillen</strong>.</div>
+<div class="bookref">📗 A2 book (modal verbs).</div>
+</div>
+</div>
+
+<div class="module">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">11. Subordinate clauses — well / dass / wann <span class="mlevel lvl-a2">A2</span></span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<p>📘 With connectors like <strong>well</strong> (because), <strong>dass</strong> (that), <strong>wann</strong> (when/if), the verb goes to the <strong>END</strong> of that clause.</p>
+<table>
+<tr><th>Connector</th><th>Example</th><th>English</th></tr>
+<tr><td class="lb">well</td><td>Ech sinn frou, <strong>well</strong> et Weekend <strong>ass</strong>.</td><td>…because it is weekend.</td></tr>
+<tr><td class="lb">dass</td><td>Ech mengen, <strong>dass</strong> Musek wichteg <strong>ass</strong>.</td><td>…that music is important.</td></tr>
+<tr><td class="lb">wann</td><td><strong>Wann</strong> ech Zäit <strong>hunn</strong>, lauschtere ech Musek.</td><td>When I have time…</td></tr>
+</table>
+<div class="warn">Notice: the verb (<em>ass</em>, <em>hunn</em>) jumps to the end of the clause.</div>
+<div class="bookref">📗 A2 book (Niewesaz / subordinate clauses).</div>
+</div>
+</div>
+
+<!-- CASES -->
+<div id="cases"></div>
+<div class="module">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">12. Cases: Nominativ / Akkusativ / Dativ <span class="mlevel lvl-a2">A2</span> <span class="exam-flag">EXAM</span></span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<p>📘 Cases show the <strong>role</strong> of a noun. The article/pronoun changes. 3 cases matter (the 4th, Genitiv, is rare).</p>
+<table>
+<tr><th>Case</th><th>Role / question</th><th>Example</th></tr>
+<tr><td class="lb">Nominativ</td><td>subject — <em>Wien?</em></td><td><strong>Den Hond</strong> schléift.</td></tr>
+<tr><td class="lb">Akkusativ</td><td>direct object — <em>Wat?</em> + <strong>direction</strong></td><td>Ech gesinn <strong>den Hond</strong>. · Ech ginn <strong>heem</strong>.</td></tr>
+<tr><td class="lb">Dativ</td><td>indirect object — <em>Wiem?</em> + <strong>location</strong></td><td>Ech ginn <strong>der Fra</strong> d'Buch. · Ech sinn <strong>doheem</strong>.</td></tr>
+</table>
+<h4>The one Miranda drills: direction vs location</h4>
+<div class="example"><strong>Wouhin?</strong> (moving) → Akkusativ → Ech ginn <strong>heem</strong> / Ech ginn <strong>an de Supermarché</strong>.<br>
+<strong>Wou?</strong> (staying) → Dativ → Ech sinn <strong>doheem</strong> / Ech sinn <strong>am Supermarché</strong>.</div>
+<h4>Dativ article changes + contractions</h4>
+<table>
+<tr><th></th><th>Male</th><th>Female</th><th>Neutral</th></tr>
+<tr><td>the →</td><td class="lb">dem</td><td class="lb">der</td><td class="lb">dem</td></tr>
+<tr><td>a →</td><td class="lb">engem</td><td class="lb">enger</td><td class="lb">engem</td></tr>
+<tr><td>my →</td><td class="lb">mengem</td><td class="lb">menger</td><td class="lb">mengem</td></tr>
+</table>
+<table>
+<tr><th>Contraction</th><th>Example</th></tr>
+<tr><td>an + dem → <span class="lb">am</span></td><td>am Restaurant</td></tr>
+<tr><td>mat + dem → <span class="lb">mam</span></td><td>mam Auto</td></tr>
+<tr><td>vun + dem → <span class="lb">vum</span></td><td>vum Flughafen</td></tr>
+<tr><td>bei + dem → <span class="lb">beim</span></td><td>beim Dokter</td></tr>
+</table>
+<h4>Prepositions by case</h4>
+<table>
+<tr><th>Always Dativ</th><th>Always Akkusativ</th></tr>
+<tr><td class="lb">mat, no, bei, vun, aus, zu, zënter, während</td><td class="lb">duerch, fir, géint, ëm, ouni</td></tr>
+</table>
+<div class="warn"><strong>Exam:</strong> Miranda said to <strong>be ready to explain the Dativ</strong>. Learn: Dativ = indirect object (Wiem?) + being/staying at a place (Wou?).</div>
+<div class="bookref">📗 A2 grammar PDF (cases). Your file: Grammaire-Fäll-Nominativ-Akkusativ-Dativ.md.</div>
+<details class="selfcheck"><summary>✅ Self-check</summary><p>I go to the supermarket vs I am at the supermarket → <em>Ech ginn <strong>an de</strong> Supermarché (Akk) · Ech sinn <strong>am</strong> Supermarché (Dativ)</em></p></details>
+</div>
+</div>
+
+<!-- ADJECTIVES -->
+<div id="adj"></div>
+<div class="module">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">13. Adjectives &amp; declension <span class="mlevel lvl-a2">A2</span></span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<p>📘 An adjective describes a noun. When it sits <strong>before</strong> a noun, it takes an ending depending on gender.</p>
+<table>
+<tr><th>Gender</th><th>Ending</th><th>Example</th></tr>
+<tr><td>Male</td><td class="lb">+ e / en</td><td>e schwaarz<strong>en</strong> Auto</td></tr>
+<tr><td>Female</td><td class="lb">(nothing)</td><td>eng rout Jackett</td></tr>
+<tr><td>Neutral</td><td class="lb">+ t</td><td>e wäiss<strong>t</strong> Hiem</td></tr>
+<tr><td>Plural</td><td class="lb">(nothing / +)</td><td>rout Schong</td></tr>
+</table>
+<div class="explain">After the verb (predicate) adjectives don't change: <em>Den Auto ass schwaarz.</em></div>
+<div class="bookref">📗 A2 book (adjectives); your clothing/picture-description notes.</div>
+</div>
+</div>
+
+<div class="module">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">14. Comparatives &amp; superlatives <span class="mlevel lvl-a2">A2</span></span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<table>
+<tr><th>Base</th><th>Comparative (méi … wéi)</th><th>Superlative (am …sten)</th></tr>
+<tr><td>grouss (big)</td><td class="lb">méi grouss wéi</td><td class="lb">am gréissten</td></tr>
+<tr><td>gutt (good)</td><td class="lb">besser</td><td class="lb">am beschten</td></tr>
+<tr><td>gär (gladly)</td><td class="lb">léiwer</td><td class="lb">am léifsten</td></tr>
+<tr><td>vill (much)</td><td class="lb">méi</td><td class="lb">am meeschten</td></tr>
+</table>
+<div class="example">De Marc ass <strong>méi grouss wéi</strong> de Jean. · Ech lauschtere <strong>am léifsten</strong> indesch Musek.</div>
+<div class="explain">Equal: <em>esou … wéi</em> (De Marc ass esou grouss wéi den Tom). Less: <em>manner … wéi</em>.</div>
+<div class="bookref">📗 A2 grammar PDF, last page (Comparatif – Superlatif).</div>
+</div>
+</div>
+
+<div class="module">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">15. Possessive pronouns <span class="mlevel lvl-a2">A2</span></span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<p>📘 Possessives agree with the gender of the <strong>thing owned</strong>, not the owner.</p>
+<table>
+<tr><th>English</th><th>Male noun</th><th>Female noun</th><th>Plural</th></tr>
+<tr><td>my</td><td class="lb">mäin</td><td class="lb">meng</td><td class="lb">meng</td></tr>
+<tr><td>your (formal)</td><td class="lb">Ären</td><td class="lb">Är</td><td class="lb">Är</td></tr>
+<tr><td>his</td><td class="lb">säin</td><td class="lb">seng</td><td class="lb">seng</td></tr>
+<tr><td>her</td><td class="lb">hiren</td><td class="lb">hir</td><td class="lb">hir</td></tr>
+<tr><td>our</td><td class="lb">eisen</td><td class="lb">eis</td><td class="lb">eis</td></tr>
+</table>
+<div class="example"><strong>Mäin</strong> Numm · <strong>meng</strong> Fra · <strong>meng</strong> Duechter · <strong>eis</strong> Famill</div>
+</div>
+</div>
+</section>
+
+<!-- ============ VOCABULARY ============ -->
+<section id="vocab">
+<h2>📚 Vocabulary &amp; key lists</h2>
+
+<div class="module open">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">Irregular past participles — learn by heart <span class="exam-flag">EXAM</span></span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<table>
+<tr><th>Infinitive</th><th>Participle</th><th>Helper</th><th>English</th></tr>
+<tr><td>goen</td><td class="lb">gaangen</td><td>sinn</td><td>gone</td></tr>
+<tr><td>kommen</td><td class="lb">komm</td><td>sinn</td><td>come</td></tr>
+<tr><td>fléien</td><td class="lb">geflunn</td><td>sinn</td><td>flown</td></tr>
+<tr><td>fueren</td><td class="lb">gefuer</td><td>sinn</td><td>driven</td></tr>
+<tr><td>bleiwen</td><td class="lb">bliwwen</td><td>sinn</td><td>stayed</td></tr>
+<tr><td>sinn</td><td class="lb">gewiescht</td><td>sinn</td><td>been</td></tr>
+<tr><td>iessen</td><td class="lb">giess</td><td>hunn</td><td>eaten</td></tr>
+<tr><td>drénken</td><td class="lb">gedronk</td><td>hunn</td><td>drunk</td></tr>
+<tr><td>schwätzen</td><td class="lb">geschwat</td><td>hunn</td><td>spoken</td></tr>
+<tr><td>liesen</td><td class="lb">gelies</td><td>hunn</td><td>read</td></tr>
+<tr><td>schlofen</td><td class="lb">geschlof</td><td>hunn</td><td>slept</td></tr>
+<tr><td>gesinn</td><td class="lb">gesinn</td><td>hunn</td><td>seen</td></tr>
+<tr><td>maachen</td><td class="lb">gemaach</td><td>hunn</td><td>done/made</td></tr>
+<tr><td>kréien</td><td class="lb">kritt</td><td>hunn</td><td>received</td></tr>
+<tr><td>hunn</td><td class="lb">gehat</td><td>hunn</td><td>had</td></tr>
+</table>
+</div>
+</div>
+
+<div class="module">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">Vocabulary by theme — your 25 theme files</span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<p>📘 Each theme file has its own vocabulary table at the bottom. Rehearse these per theme. Themes you have prepared:</p>
+<table>
+<tr><th>Theme</th><th>Theme</th><th>Theme</th></tr>
+<tr><td>Famill</td><td>Wunnen</td><td>de Stot maachen</td></tr>
+<tr><td>Iessen a Gedrénks</td><td>Film an Televisioun</td><td>Fräizäitaktivitéiten</td></tr>
+<tr><td>Musek</td><td>Moud a Kleeder</td><td>Sozial Kontakter</td></tr>
+<tr><td>Heemechtland</td><td>Kandheet</td><td>Kreativitéit</td></tr>
+<tr><td>Kaddoen</td><td>Wantersport</td><td>Fester</td></tr>
+<tr><td>Sproochen</td><td>Aarbecht</td><td>Transportmëttel</td></tr>
+<tr><td>Vakanz</td><td>nei Technologien a Medien</td><td>Gesondheet</td></tr>
+<tr><td>Sport a Beweegung</td><td>Am Restaurant</td><td>Kommissioune maachen</td></tr>
+<tr><td>liesen</td><td colspan="2">(open the Theme answers page, or the .md files)</td></tr>
+</table>
+<div class="bookref">📗 Open <a href="themes-reader.html">themes-reader.html</a> or the <code>Theema-*.md</code> files in your LUX_classes folder.</div>
+</div>
+</div>
+
+<div class="module">
+<div class="module-head" onclick="this.parentElement.classList.toggle('open')">
+<span class="mtitle">Picture description framework (oral exam)</span><span class="chev">▶</span>
+</div>
+<div class="module-body">
+<table>
+<tr><th>Phrase</th><th>Use</th></tr>
+<tr><td class="lb">Op dësem Bild gesinn ech…</td><td>In this picture I see…</td></tr>
+<tr><td class="lb">An der Mëtt…</td><td>In the middle…</td></tr>
+<tr><td class="lb">Lénks / Riets…</td><td>On the left / right…</td></tr>
+<tr><td class="lb">Am Hannergrond…</td><td>In the background…</td></tr>
+<tr><td class="lb">Ënnen / Uewen…</td><td>At the bottom / top…</td></tr>
+<tr><td class="lb">D'Wieder ass… / Et gesäit aus wéi…</td><td>The weather is… / It looks like…</td></tr>
+</table>
+<div class="example">Describe clothes with adjectives (male +e/en, female none, neutral +t). Add a personal link to a theme where possible.</div>
+</div>
+</div>
+</section>
+
+<footer>
+Luxembourgish Grammar Course · A1 → A2 · built for the Sproochentest on 12 Jan 2027 · pair with the A1/A2 books.
+</footer>
+
+</div><!-- container -->
+
+<script>
+// Open a module if the URL hash targets a section inside it, and smooth-scroll nav
+document.querySelectorAll('.nav a, .topbar a').forEach(a => {
+  a.addEventListener('click', function(e){
+    const href = this.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      const el = document.querySelector(href);
+      if (el) { e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+    }
+  });
+});
+</script>
+
+</body>
+</html>
